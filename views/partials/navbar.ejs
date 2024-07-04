@@ -24,12 +24,16 @@
             <% } %>
           </li> -->
         </ul>
+        
+        
         <div class="d-flex" role="search">
           <% if (!currentUser) { %>
             <a class="mx-2" href="/login"><button class="btn btn-outline-info" type="submit">Login</button></a>
             <a class="mx-2" href="/register"><button class="btn btn-outline-info" type="submit">Signup</button></a>
           <% } else { %>
+            
             <a href="#" class="nav-link text-capitalize">Hello <%= currentUser.username %></a>
+            <a href="/profile"><i class="fa fa-user-circle" style="font-size: 28px; color:rgb(0, 0, 129); margin-right:25px"></i></a>
             <a class="mx-2" href="/logout"><button class="btn btn-outline-info" type="submit">Logout</button></a>
           <% } %>
         </div>

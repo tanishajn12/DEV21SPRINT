@@ -20,7 +20,7 @@ const societySchema = new Schema({
     },
     type: {
         type: String,
-        enum: ['Technical', 'Cultural', 'Social'],
+        enum: ['Technical', 'Cultural', 'Social Work', 'Sports', 'Student Chapter','Literacy'],
         required: true
     },
     events: [{

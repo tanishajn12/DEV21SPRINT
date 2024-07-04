@@ -1,0 +1,83 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<section class="container mt-5">
+  <div class="card">
+    <div class="card-header bg-primary text-white text-center">
+      <h2 class="mb-0">Profile Page</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3 text-center">
+          <img src="https://static.vecteezy.com/system/resources/previews/029/271/069/original/avatar-profile-icon-in-flat-style-female-user-profile-illustration-on-isolated-background-women-profile-sign-business-concept-vector.jpg" alt="Profile Picture" id="profile-picture" class="img-fluid rounded-circle mb-3">
+          <h5><%= user.name %></h5>
+          
+          <a href="/profile/edit" class="btn btn-warning btn-sm">Edit Profile</a>
+          
+          
+
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong>Name:</strong> <%= user.name %>
+                </div>
+              <div class="mb-3">
+                <strong>Email:</strong> <%= user.email %>
+              </div>
+              <div class="mb-3">
+                <strong>Roll Number:</strong> <%= user.rollno %>
+              </div>
+              <div class="mb-3">
+                <strong>Contact Number:</strong> <%= user.contactno %>
+              </div>
+
+            </div>
+            <div class="col-md-6">
+              <div class="mb-3">
+                <strong>Year:</strong> <%= user.year %>
+              </div>
+              <div class="mb-3">
+                <strong>Branch:</strong> <%= user.branch %>
+              </div>
+              <div class="mb-3">
+                <strong>Role:</strong> <%= user.role %>
+              </div>
+              
+             
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="mb-3">
+        <strong>Wishlist:</strong>
+        <ul>
+          <% user.wishlist.forEach(function(event) { %>
+            <li><%= event.name %></li>
+          <% }) %>
+        </ul>
+      </div>
+      <div class="mb-3">
+        <strong>Registered Events:</strong>
+        <ul>
+          <% user.registeredEvents.forEach(function(event) { %>
+            <li><%= event.name %></li>
+          <% }) %>
+        </ul>
+      </div>
+  </div>
+
+  <div class="card-footer">
+      <form action="/profile" method="POST" class="float-end" onsubmit="return confirm('Are you sure you want to delete your profile?');">
+        <input type="hidden" name="_method" value="DELETE">
+        <button type="submit" class="btn btn-danger">Delete Profile</button>
+      </form>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>

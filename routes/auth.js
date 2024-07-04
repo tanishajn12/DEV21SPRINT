@@ -10,8 +10,8 @@ router.get('/register',(req,res)=>{
 
 
 router.post('/register', async (req,res)=>{
-    let {username , password, name, email, rollno, contactno, role} = req.body;
-    let user = new User({username , password, name, email, rollno, contactno, role});
+    let {username , password, name, email, rollno,year, branch, contactno, role} = req.body;
+    let user = new User({username , password, name, email, rollno, year, branch, contactno, role});
     let newUser = await User.register(user, password);
     // res.send(newUser);
     res.redirect('/events');

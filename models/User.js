@@ -18,7 +18,16 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-
+    year: {
+        type: Number,
+        enum: [1, 2, 3, 4, 5],
+        required: true
+    },
+    branch: {
+        type: String,
+        enum: ['CSE', 'CSE-AI', 'IT', 'AIML', 'ECE', 'ECE-AI', 'MAE', 'DMAM'],
+        required: true
+    },
     contactno: {
         type: String ,
         required: true
@@ -33,6 +42,13 @@ const userSchema = new mongoose.Schema({
             ref: 'Event'
         }
     ],
+    registeredEvents: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Registration'
+        }
+    ],
+
 });
 
 userSchema.plugin(passportLocalMongoose); // Apply passport-local-mongoose plugin

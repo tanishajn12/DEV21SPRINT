@@ -11,6 +11,7 @@ const eventRoutes = require("./routes/event");
 const registrationRoutes = require("./routes/registration")
 const societyRoutes = require("./routes/society")
 const authRoutes = require("./routes/auth");
+const profileRoutes = require('./routes/profile');
 const passport= require('passport');
 const User = require("./models/User");
 const LocalStrategy = require('passport-local');
@@ -74,6 +75,7 @@ app.use(reviewRoutes);
 app.use(authRoutes);
 app.use(registrationRoutes);
 app.use(societyRoutes);
+app.use(profileRoutes)
 // app.use(productApi);
 // app.use(cartRoutes);
 

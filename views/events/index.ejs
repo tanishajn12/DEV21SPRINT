@@ -34,9 +34,26 @@
             </form>
         <% } %>
     </div>
+    <!-- Filter Section -->
+    <div class="mb-4">
+        <label for="eventTypeFilter" class="form-label">Filter by Event Type:</label>
+        <select class="form-select" id="eventTypeFilter">
+            <option value="all" selected>All Events</option>
+            <option value="Technical">Technical</option>
+            <option value="Hackathon">Hackathon</option>
+            <option value="Research">Research</option>
+            <option value="Coding Contest">Coding Contest</option>
+            <option value="Cultural">Cultural</option>
+            <option value="Seminar & Workshop">Seminar & Workshop</option>
+            <option value="Sports">Sports</option>
+            <option value="Games & Fun">Games & Fun</option>
+            <option value="Literature & Speaking">Literature</option>
+            <option value="Social Awareness">Social Awareness</option> 
+        </select>
+    </div>
     <div class="row">
         <% for (let event of events) { %>
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 event-card">
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 event-card" data-event-type="<%= event.type %>">
                 <div class="card text-center shadow h-100">
                     <img class="card-img-top img-fluid" src="<%= event.img %>" alt="<%= event.name %>">
                     <div class="card-body">
@@ -65,6 +82,27 @@
         <% } %>
     </div>
 </div>
+<script>
+    // JavaScript to handle event filtering
+    document.addEventListener('DOMContentLoaded', function() {
+        const eventTypeFilter = document.getElementById('eventTypeFilter');
+        const eventCards = document.querySelectorAll('.event-card');
+
+        eventTypeFilter.addEventListener('change', function() {
+            const selectedType = eventTypeFilter.value;
+
+            eventCards.forEach(card => {
+                const cardType = card.getAttribute('data-event-type');
+
+                if (selectedType === 'all' || selectedType === cardType) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
+</script>
 
 <script src="/js/common.js"></script>
 <%- include('../partials/footer') %>

@@ -56,11 +56,28 @@
                             <div class="invalid-feedback">Please enter a venue.</div>
                         </div>
 
+                
                         <div class="mb-3">
                             <label for="eventType" class="form-label">Type</label>
-                            <input type="text" class="form-control" name="type" id="eventType" placeholder="Type of Event" required>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please enter an event type.</div>
+                            <select class="form-select" name="type" id="eventType" required>
+                                <option value="">Select Type</option>
+                                <option value="Technical">Technical</option>
+                                <option value="Hackathon">Hackathon</option>
+                                <option value="Research">Research</option>
+                                <option value="Coding Contest">Coding Contest</option>
+                                <option value="Cultural">Cultural</option>
+                                <option value="Seminar & Workshop">Seminar & Workshop</option>
+                                <option value="Sports">Sports</option>
+                                <option value="Games & Fun">Games & Fun</option>
+                                <option value="Literature & Speaking">Literature</option>
+                                <option value="Social Awareness">Social Awareness</option>
+                            </select>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please select a type.
+                            </div>
                         </div>
 
                         <div class="mb-3">

@@ -56,11 +56,29 @@
                             <div class="invalid-feedback">Please enter the event venue.</div>
                         </div>
 
+                       
+                        
                         <div class="mb-3">
                             <label for="eventType" class="form-label">Type</label>
-                            <input type="text" class="form-control" name="type" id="eventType" placeholder="Type of Event" value="<%= foundEvent.type %>" required>
-                            <div class="valid-feedback">Looks good!</div>
-                            <div class="invalid-feedback">Please enter the event type.</div>
+                            <select class="form-select" name="type" id="eventType" required>
+                                <option value="Technical" <%= foundEvent.type === 'Technical' ? 'selected' : '' %>>Technical</option>
+                                <option value="Hackathon" <%= foundEvent.type === 'Hackathon' ? 'selected' : '' %>>Hackathon</option>
+                                <option value="Research" <%= foundEvent.type === 'Research' ? 'selected' : '' %>>Research</option>
+                                <option value="Coding Contest" <%= foundEvent.type === 'Coding Contest' ? 'selected' : '' %>>Coding Contest</option>
+                                <option value="Cultural" <%= foundEvent.type === 'Cultural' ? 'selected' : '' %>>Cultural</option>
+                                <option value="Seminar & Workshop" <%= foundEvent.type === 'Seminar & Workshop' ? 'selected' : '' %>>Seminar & Workshop</option>
+                                <option value="Sports" <%= foundEvent.type === 'Sports' ? 'selected' : '' %>>Sports</option>
+                                <option value="Games & Fun" <%= foundEvent.type === 'Games & Fun' ? 'selected' : '' %>>Games & Fun</option>
+                                <option value="Literature" <%= foundEvent.type === 'Literature' ? 'selected' : '' %>>Literature</option>
+                                <option value="Social Awareness" <%= foundEvent.type === 'Social Awareness' ? 'selected' : '' %>>Social Awareness</option>
+
+                            </select>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please select a society type.
+                            </div>
                         </div>
 
                         <div class="mb-3">

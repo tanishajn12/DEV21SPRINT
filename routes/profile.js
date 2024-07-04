@@ -23,10 +23,28 @@ router.get('/profile/edit', isLoggedIn, async (req, res) => {
 });
 
 // Update profile
-router.patch('/profile/update', isLoggedIn, async (req, res) => {
+router.post('/profile/update', isLoggedIn, async (req, res) => {
     try {
         const { name, email, rollno, year, branch, contactno } = req.body;
-        await User.findByIdAndUpdate(req.user.id, { name, email, rollno, year, branch, contactno });
+
+        // Fetch the user from the database
+        let user = await User.findById(req.user.id);
+
+        if (!user) {
+            req.flash('error', 'User not found');
+            return res.redirect('/profile');
+        }
+
+        // Update user object with new values
+        user.name = name;
+        user.email = email;
+        user.rollno = rollno;
+        user.year = year;
+        user.branch = branch;
+        user.contactno = contactno;
+
+        // Save the updated user object
+        await user.save();
 
         req.flash('success', 'Profile Edited Successfully');
         res.redirect(`/profile`);

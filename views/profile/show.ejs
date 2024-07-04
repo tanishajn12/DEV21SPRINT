@@ -11,11 +11,7 @@
         <div class="col-md-3 text-center">
           <img src="https://static.vecteezy.com/system/resources/previews/029/271/069/original/avatar-profile-icon-in-flat-style-female-user-profile-illustration-on-isolated-background-women-profile-sign-business-concept-vector.jpg" alt="Profile Picture" id="profile-picture" class="img-fluid rounded-circle mb-3">
           <h5><%= user.name %></h5>
-          
           <a href="/profile/edit" class="btn btn-warning btn-sm">Edit Profile</a>
-          
-          
-
         </div>
         <div class="col-md-9">
           <div class="row">
@@ -32,7 +28,6 @@
               <div class="mb-3">
                 <strong>Contact Number:</strong> <%= user.contactno %>
               </div>
-
             </div>
             <div class="col-md-6">
               <div class="mb-3">
@@ -44,40 +39,39 @@
               <div class="mb-3">
                 <strong>Role:</strong> <%= user.role %>
               </div>
-              
-             
-              
             </div>
           </div>
         </div>
       </div>
     </div>
     
+    <!-- Display Registered Events as Cards -->
+    <div class="card-body">
+      <h4 class="card-title">Registered Events:</h4>
+      <div class="row">
+        <% user.registeredEvents.forEach(function(event) { %>
+          <div class="col-md-4 mb-4">
+            <div class="card shadow">
+              <img src="<%= event.img %>" class="card-img-top" alt="<%= event.name %>">
+              <div class="card-body">
+                <h5 class="card-title"><%= event.name %></h5>
+                <p class="card-text"><strong>Date:</strong> <%= new Date(event.date).toLocaleDateString() %></p>
+                <p class="card-text"><strong>Time:</strong><%= event.time %></p>
+                <a href="/events/<%= event._id %>" class="btn btn-primary">View Event</a>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
     
-    <div class="mb-3">
-        <strong>Wishlist:</strong>
-        <ul>
-          <% user.wishlist.forEach(function(event) { %>
-            <li><%= event.name %></li>
-          <% }) %>
-        </ul>
-      </div>
-      <div class="mb-3">
-        <strong>Registered Events:</strong>
-        <ul>
-          <% user.registeredEvents.forEach(function(event) { %>
-            <li><%= event.name %></li>
-          <% }) %>
-        </ul>
-      </div>
-  </div>
-
-  <div class="card-footer">
+    <div class="card-footer">
       <form action="/profile" method="POST" class="float-end" onsubmit="return confirm('Are you sure you want to delete your profile?');">
         <input type="hidden" name="_method" value="DELETE">
         <button type="submit" class="btn btn-danger">Delete Profile</button>
       </form>
     </div>
+  </div>
 </section>
 
 <%- include('../partials/footer') %>

@@ -58,6 +58,12 @@ const eventSchema = new mongoose.Schema({
             ref: 'Registration'
         }
     ],
+    registeredUsers : [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ]
 });
 
 // Create the Event model

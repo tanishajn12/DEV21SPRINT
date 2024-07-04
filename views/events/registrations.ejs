@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 <%- include('../partials/navbar') %>
-<%- include('../partials/flash')%>
+<%- include('../partials/flash') %>
 <style>
     body {
         padding-top: 60px;
@@ -18,23 +18,20 @@
                 <th>Roll No</th>
                 <th>Year</th>
                 <th>Branch</th>
-
             </tr>
         </thead>
         <tbody>
-            <%event.registrations.forEach(registration => { %>
+            <% event.registrations.forEach(registration => { %>
                 <tr>
-                    <td><%=registration.user.name%></td>
-                    <td><%=registration.user.email%></td>
-                    <td><%=registration.user.contactno%></td>
-                    <td><%=registration.user.rollno%></td>
-                    <td><%=registration.user.year%></td>
-                    <td><%=registration.user.branch%></td>
-
+                    <td><%= registration.user.name %></td>
+                    <td><%= registration.user.email %></td>
+                    <td><%= registration.user.contactno %></td>
+                    <td><%= registration.user.rollno %></td>
+                    <td><%= registration.user.year %></td>
+                    <td><%= registration.user.branch %></td>
                 </tr>
-            <%})%>
+            <% }) %>
         </tbody>
     </table>
 </div>
-
 <%- include('../partials/footer') %>

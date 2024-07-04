@@ -1,0 +1,70 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
+
+<style>
+    body {
+        padding-top:60px;
+    }
+    .event-card img {
+        max-width: 100%; /* Set maximum width */
+        height: auto; /* Maintain aspect ratio */
+        margin: 0 auto;
+    }
+    .event-card .card-body {
+        padding-top: 0.5rem;
+    }
+    .event-card .card-title {
+        font-weight: bold;
+    }
+    .event-card .btn {
+        margin: 0.2rem 0;
+        font-weight:500;
+    }
+    .event-card h6 {
+        margin-top: 0.2rem;
+    }
+</style>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-center">SOCIETY EVENTS</h2>
+        <% if (currentUser && currentUser.role === "admin") { %>
+            <form action="/event/new" method="GET">
+                <button type="submit" class="btn btn-success">Add Event</button>
+            </form>
+        <% } %>
+    </div>
+    <div class="row">
+        <% for (let event of events) { %>
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4 event-card">
+                <div class="card text-center shadow h-100">
+                    <img class="card-img-top img-fluid" src="<%= event.img %>" alt="<%= event.name %>">
+                    <div class="card-body">
+                        <h4 class="card-title"><%= event.name %></h4>
+                        <h6 class="card-title">Date: <%= new Date(event.date).toDateString() %></h6>
+                        <h6 class="card-title">Time: <%= event.time %></h6>
+                        <h6 class="card-text">Society: <%= event.society ? event.society.name : 'N/A' %></h6>
+
+                        <h6 class="card-text">Venue: <%= event.venue %></h6>
+                        <!-- <p class="card-text">Type: <%= event.type %></p> -->
+                        <!-- <p class="card-text"><%= event.desc.substring(0, 100) %>...</p> -->
+                        <!-- <% if (event.registerLink) { %>
+                            <p><a href="<%= event.registerLink %>" class="btn btn-info">Register Here</a></p>
+                        <% } %> -->
+                        <a href="/events/<%= event._id %>" class="btn btn-primary">View Event</a>
+                    
+                        <% if(currentUser && currentUser.role === "admin"){ %>
+                            <a href="/events/<%= event._id %>/edit" class="btn btn-warning">Edit Event</a>
+                            <form action="/events/<%= event._id %>?_method=DELETE" method="POST" class="d-inline">
+                              <button class="btn btn-danger">Delete Event</button>
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<script src="/js/common.js"></script>
+<%- include('../partials/footer') %>

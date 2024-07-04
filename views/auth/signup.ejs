@@ -1,0 +1,82 @@
+<%-include('../partials/header')%>
+<%-include('../partials/navbar')%>
+<%- include('../partials/flash') %>
+<style>
+    body {
+        padding-top:50px; ;
+    }
+</style>
+
+<section class="vh-100">
+    <div class="container py-5 h-100">
+      <div class="row d-flex align-items-center justify-content-center h-100">
+        <div class="col-md-8 col-lg-6 col-xl-6">
+          <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+            class="img-fluid" alt="Phone image">
+        </div>
+        <div class="col-md-7 col-lg-6 col-xl-5 offset-xl-1">
+            <h2 class="text-center mb-4">Sign Up</h2>
+          <form action="/register" method="POST">
+            <!-- Username input -->
+            <div class="mb-3">
+              <label for="username" class="form-label">UserName</label>
+              <input type="text" class="form-control" name="username" id="username" placeholder="Enter Username" required>
+            </div>
+  
+            <!-- Full Name input -->
+            <div class="mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" class="form-control" name="name" id="name" placeholder="Enter Your Full Name" required>
+            </div>
+  
+            <!-- Email input -->
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="Enter College Email Id" required>
+            </div>
+  
+            <!-- Roll Number input -->
+            <div class="mb-3">
+              <label for="rollno" class="form-label">Roll Number</label>
+              <input type="number" class="form-control" name="rollno" id="rollno" placeholder="Enter Enrollment Number" required>
+            </div>
+  
+            <!-- Contact Number input -->
+            <div class="mb-3">
+              <label for="contactno" class="form-label">Contact Number</label>
+              <input type="tel" class="form-control" name="contactno" id="contactno" placeholder="Enter Your Contact Number" required>
+            </div>
+  
+            <!-- Role selection -->
+            <div class="mb-3">
+              <p class="mt-2">Want to register as?</p>
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="role" id="adminRole" value="admin" required>
+                <label class="form-check-label" for="adminRole">Admin</label>
+              </div>
+              <div class="form-check">
+                <input type="radio" class="form-check-input" name="role" id="studentRole" value="student" required>
+                <label class="form-check-label" for="studentRole">Student</label>
+              </div>
+            </div>
+  
+            <!-- Password input -->
+            <div class="mb-3">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password" id="password" required>
+            </div>
+  
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign Up</button>
+  
+            <p class="mt-3 text-center">Already have an account? <a href="/login">Login Now</a></p>
+          </form>
+        </div>
+      </div>
+    </div>
+</section>
+  
+
+<script src="/js/script.js"></script>
+<%-include('../partials/footer')%>
+    

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Society Times</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css">
+    <style>
+        body{
+          padding-top: 50px ;
+          padding-bottom: 40px;
+        }
+        #hero {
+            padding: 60px 0;
+            background: #ffffff;
+        }
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-family:Georgia, 'Times New Roman', Times, serif;
+            color: rgb(0, 37, 132);
+            text-align: center;
+            margin-bottom: 50px;
+            animation: fadeInLeft 1s ease-in-out;
+        }
+        .hero-content p {
+          font-size: 1.8rem;
+          text-align: center;
+    
+          font-family:'Times New Roman', Times, serif;
+          animation: fadeInLeft 1.5s ease-in-out;
+        }
+        .hero-image img {
+          max-width: 100%;
+          height: auto;
+          animation: fadeInRight 1s ease-in-out;
+        }
+        #about {
+          padding: 60px 0;
+          background-color: #e7e7e7; 
+      }
+      
+      #about h2 {
+        font-size: 2.5rem;
+        color: rgb(0, 37, 132); 
+        margin-bottom: 30px;
+      }
+      
+      #about p {
+          font-size: 1.2rem;
+          line-height: 1.6;
+          color: #000000; 
+      }
+      
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        section {
+            padding: 60px 0;
+        }
+        .slick-slide {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <%- include('./partials/header') %>
+    <%- include('./partials/navbar') %>
+    <%- include('./partials/flash') %>
+
+    <section id="hero" class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <h2 class="my-5 display-4 fw-bold ls-tight">
+                  One stop for<br />
+                  <span class="text-primary">Society Events</span>
+                </h2>
+                <p style="color: rgb(0, 0, 0)">
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Eveniet, itaque accusantium odio, soluta, corrupti aliquam
+                  quibusdam tempora at cupiditate quis eum maiores libero
+                  veritatis? Dicta facilis sint aliquid ipsum atque?
+                </p>
+              </div>
+            <div class="col-md-6 hero-image">
+                <img src="\assets\Work chat-amico (1).png" alt="Society Times">
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="container text-center">
+        <h2>About Society Times</h2>
+        <p>Society Times is a platform designed to streamline the registration process for various society events within an institution. It aims to facilitate both administrators and students in managing and participating in society activities effectively. By enhancing the engagement and management of society events, Society Times makes it easier for administrators to organize and for students to participate actively.</p>
+    </section>
+
+    <!-- <section id="upcoming-events" class="container">
+        <h2 class="text-center">Upcoming Events</h2>
+        <div class="upcoming-slider">
+            <div class="p-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 1</h5>
+                        <p class="card-text">Details about Event 1.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 2</h5>
+                        <p class="card-text">Details about Event 2.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Event 3</h5>
+                        <p class="card-text">Details about Event 3.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Event 3</h5>
+                      <p class="card-text">Details about Event 3.</p>
+                  </div>
+              </div>
+          </div>
+          <div class="p-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Event 3</h5>
+                    <p class="card-text">Details about Event 3.</p>
+                </div>
+            </div>
+        </div>
+        <div class="p-3">
+          <div class="card">
+              <div class="card-body">
+                  <h5 class="card-title">Event 3</h5>
+                  <p class="card-text">Details about Event 3.</p>
+              </div>
+          </div>
+        </div>
+            
+      </div>
+    </section> -->
+
+    <!-- <section id="glance" class="container text-center">
+        <h2>Glance at Past Events</h2>
+        <div class="past-slider">
+            <div class="p-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Past Event 1</h5>
+                        <p class="card-text">Details about Past Event 1.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Past Event 2</h5>
+                        <p class="card-text">Details about Past Event 2.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Past Event 3</h5>
+                        <p class="card-text">Details about Past Event 3.</p>
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+        <a href="/events" class="btn btn-primary mt-4">View All Events</a>
+    </section> -->
+
+    
+
+    <%- include('./partials/footer') %>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.upcoming-slider').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+            $('.past-slider').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                autoplay: false,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+            $('.society-slider').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        settings: {
+                            slidesToShow: 1
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

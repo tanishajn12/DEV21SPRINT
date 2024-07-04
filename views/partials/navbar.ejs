@@ -1,0 +1,38 @@
+<nav class="navbar fixed-top navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/"><img src="/assets/logo2.png" class="img-fluid"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/societies">Societies</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/events">Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">Contact</a>
+          </li>
+          <!-- <li class="nav-item">
+            <% if (currentUser && currentUser.role === "admin") { %>
+              <a class="nav-link" href="/event/new">Add Event</a>
+            <% } %>
+          </li> -->
+        </ul>
+        <div class="d-flex" role="search">
+          <% if (!currentUser) { %>
+            <a class="mx-2" href="/login"><button class="btn btn-outline-info" type="submit">Login</button></a>
+            <a class="mx-2" href="/register"><button class="btn btn-outline-info" type="submit">Signup</button></a>
+          <% } else { %>
+            <a href="#" class="nav-link text-capitalize">Hello <%= currentUser.username %></a>
+            <a class="mx-2" href="/logout"><button class="btn btn-outline-info" type="submit">Logout</button></a>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </nav>

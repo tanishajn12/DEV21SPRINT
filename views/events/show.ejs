@@ -1,0 +1,193 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
+
+<style>
+    body {
+        padding-top: 60px;
+    }
+
+    .event-card-admin {
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .event-card-admin img {
+        max-width: 100%;
+        max-height: 450px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+        margin-right: 20px; /* Add some space between the image and the details */
+    }
+
+    .event-details {
+        flex: 1;
+    }
+
+    .event-details .card {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .event-details .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-details .card-text {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-details .btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    .registration-count {
+        font-size: 1.2rem;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .event-card-student img {
+        max-width: 100%;
+        max-height: 450px;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .event-card-student .card {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .event-card-student .card-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    .event-card-student .card-text {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        text-align: center;
+    }
+
+    .event-card-student .btn {
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4"><%= foundEvent.name %></h2>
+
+    <% if (currentUser && currentUser.role === "admin") { %>
+        <div class="registration-count">
+            Total Registrations: <%= foundEvent.registrations.length %>
+        </div>
+    <% } %>
+
+    <div class="row">
+        <% if (currentUser && currentUser.role === "admin") { %>
+            <div class="event-card-admin">
+                <img src="<%= foundEvent.img %>" class="card-img-top img-fluid" alt="...">
+                <div class="event-details">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <h3 class="card-title"><%= foundEvent.name %></h3>
+                            <h5 class="card-text"><strong>Date: </strong><%= foundEvent.date.toDateString() %></h5>
+                            <h5 class="card-text"><strong>Time: </strong> <%= foundEvent.time %></h5>
+                            <p class="card-text"><strong>Society: </strong> <%= foundEvent.society ? foundEvent.society.name : 'N/A' %></p>
+                            <p class="card-text"><strong>Venue: </strong> <%= foundEvent.venue %></p>
+                            <p class="card-text"><strong>Type: </strong><%= foundEvent.type %></p>
+                            <p class="card-text">Description: <%= foundEvent.desc %></p>
+                            <a href="/events/<%= foundEvent._id %>/edit" class="btn btn-info">Edit Event</a>
+                            <form class="d-inline-block" action="/events/<%= foundEvent._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-danger btn-sm">Delete Event</button>
+                            </form>
+                            <a href="/events/<%= foundEvent._id %>/registrations" class="btn btn-primary">Show Registrations</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="col-lg-6 event-card-student">
+                <img src="<%= foundEvent.img %>" class="card-img-top img-fluid" alt="...">
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h3 class="card-title text-center"><%= foundEvent.name %></h3>
+                        <h5 class="card-text"><strong>Date: </strong><%= foundEvent.date.toDateString() %></h5>
+                        <h5 class="card-text"><strong>Time: </strong> <%= foundEvent.time %></h5>
+                        <p class="card-text"><strong>Society: </strong> <%= foundEvent.society ? foundEvent.society.name : 'N/A' %></p>
+                        <p class="card-text"><strong>Venue: </strong> <%= foundEvent.venue %></p>
+                        <p class="card-text"><strong>Type: </strong><%= foundEvent.type %></p>
+                        <p class="card-text">Description: <%= foundEvent.desc %></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="review-card">
+                    <% if (currentUser && currentUser.role === "student") { %>
+                        <form action="/events/<%= foundEvent._id %>/register" method="POST">
+                            <button type="submit" class="btn btn-success btn-block mt-3">Register For Event</button>
+                        </form>
+                        <h3 class="text-center mb-4" style="padding-top:3px;">Leave Your Review</h3>
+                        <form action="/events/<%= foundEvent._id %>/review" method="POST">
+                            <div class="mb-3">
+                                <label class="form-label" for="stars">Rating:</label>
+                                <fieldset class="starability-basic">
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+                                    <input type="radio" id="first-rate1" name="rating" value="1" />
+                                    <label for="first-rate1" title="Terrible">1 star</label>
+                                    <input type="radio" id="first-rate2" name="rating" value="2" />
+                                    <label for="first-rate2" title="Not good">2 stars</label>
+                                    <input type="radio" id="first-rate3" name="rating" value="3" />
+                                    <label for="first-rate3" title="Average">3 stars</label>
+                                    <input type="radio" id="first-rate4" name="rating" value="4" />
+                                    <label for="first-rate4" title="Very good">4 stars</label>
+                                    <input type="radio" id="first-rate5" name="rating" value="5" />
+                                    <label for="first-rate5" title="Amazing">5 stars</label>
+                                </fieldset>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="comment">Comment:</label>
+                                <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+                            </div>
+                            <button class="btn btn-success">Submit</button>
+                        </form>
+
+                        <div class="my-3">
+                            <% for (let review of foundEvent.reviews) { %>
+                                <div class="card mb-3">
+                                    <div class="card-header">Rating: <%= review.rating %></div>
+                                    <div class="card-body">
+                                        <p class="starability-result" data-rating="<%= review.rating %>">
+                                            Rated: <%= review.rating %> stars
+                                        </p>
+                                        <p class="card-text">Comment: <%= review.comment %></p>
+                                        <% if (review.createdAt) { %>
+                                            <p class="text-muted"><%= review.createdAt.toDateString() %></p>
+                                        <% } %>
+                                        <button class="btn btn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

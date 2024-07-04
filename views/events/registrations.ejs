@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash')%>
+<style>
+    body {
+        padding-top: 60px;
+    }
+</style>
+<div class="container mt-5">
+    <h1>Registrations for <%= event.name %></h1>
+    <p>Total Registrations: <%= event.registrations.length %></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Roll No</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%event.registrations.forEach(registration => { %>
+                <tr>
+                    <td><%=registration.user.name%></td>
+                    <td><%=registration.user.email%></td>
+                    <td><%=registration.user.contactno%></td>
+                    <td><%=registration.user.rollno%></td>
+
+                </tr>
+            <%})%>
+        </tbody>
+    </table>
+</div>
+
+<%- include('../partials/footer') %>

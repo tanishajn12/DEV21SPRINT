@@ -1,0 +1,51 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/flash') %>
+
+<style>
+    body {
+        padding-top: 70px; /* Adjust this value based on the height of your navbar */
+    }
+    
+</style>
+
+<div class="container mt-5" style="margin-top: 80px;">
+    <div class="row align-items-center">
+        <div class="col-md-3 text-center">
+            <img src="<%= foundSociety.img %>" alt="<%= foundSociety.name %>" class="img-fluid" style="max-width: 100%;">
+        </div>
+        <div class="col-md-9">
+            <h2><%= foundSociety.name %></h2>
+            <p><strong>Type:</strong> <%= foundSociety.type %></p>
+            <p><strong>Description:</strong> <%= foundSociety.description %></p>
+            <p><strong>Email:</strong> <%= foundSociety.email %></p>
+            <p><strong>Instagram:</strong> <a href="<%= foundSociety.instagram %>" target="_blank"><%= foundSociety.instagram %></a></p>
+            <p><strong>LinkedIn:</strong> <a href="<%= foundSociety.linkedin %>" target="_blank"><%= foundSociety.linkedin %></a></p>
+            <% if (currentUser && currentUser.role === "admin") { %>
+                <a href="/societies/<%= foundSociety._id %>/edit" class="btn btn-info">Edit Society</a>
+                <form class="d-inline-block" action="/societies/<%= foundSociety._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger btn-sm">Delete Society</button>
+                </form>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <h2 class="display-5 mb-2"><%=foundSociety.name%> EVENTS</h2>
+        <% for (let event of foundSociety.events) { %>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="<%= event.img %>" class="card-img-top" alt="<%= event.name %>">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= event.name %></h5>
+                        <p class="card-text">Date: <%= event.date.toDateString() %></p>
+                        <p class="card-text">Venue: <%= event.venue %></p>
+                        <a href="/events/<%= event._id %>" class="btn btn-primary">View Event</a>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -15,7 +15,7 @@
             <img src="<%= foundSociety.img %>" alt="<%= foundSociety.name %>" class="img-fluid" style="max-width: 100%;">
         </div>
         <div class="col-md-9">
-            <h2><%= foundSociety.name %></h2>
+            <h2 style="font-size:40px ; font-weight:bold"><%= foundSociety.name %></h2>
             <p><strong>Type:</strong> <%= foundSociety.type %></p>
             <p><strong>Description:</strong> <%= foundSociety.description %></p>
             <p><strong>Email:</strong> <%= foundSociety.email %></p>
@@ -31,7 +31,7 @@
     </div>
 
     <div class="row mt-5">
-        <h2 class="display-5 mb-2"><%=foundSociety.name%> EVENTS</h2>
+        <h2 style="font-size:30px ; font-weight:bold"class="display-5 mb-2">EVENTS</h2>
         <% for (let event of foundSociety.events) { %>
             <div class="col-md-4 mb-4">
                 <div class="card shadow">

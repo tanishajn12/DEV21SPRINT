@@ -1,63 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title></title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link rel="stylesheet" href="./css/main.css">
-</head>
+<%- include('./partials/header') %>
 
 <body>
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+      <div class="container d-flex align-items-center">
+  
+        <div class="logo me-auto">
+          <!-- <h5>Society Times</h5> -->
+          <a href="index.html"><img src="./assets/logo2.png" alt="" class="img-fluid"></a>
+        </div>
+  
+        <nav id="navbar" class="navbar order-last order-lg-0">
+          
+          <ul>
+            <li><a class="nav-link scrollto active" href="/">Home</a></li>
+            <li class="dropdown"><a href="#"><span>About</span> <i class="bi bi-chevron-down"></i></a>
+              <ul>
+                <li><a class="nav-link scrollto" href="#about">About Us</a></li>
+                <li><a class="nav-link scrollto" href="#testimonials">Testimonials</a></li>
+                
+              </ul>
+            </li>
+            <li><a class="nav-link scrollto" href="#services">Services</a></li>
+            <li><a class="nav-link scrollto " href="/events">Events</a></li>
+            <li><a class="nav-link scrollto " href="/societies">Societies</a></li>
+            <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
+          </ul>
+          <div class="d-flex" role="search">
+            <% if (!currentUser) { %>
+              <a class="mx-2" href="/login"><button class="btn btn-outline-info" type="submit">Login</button></a>
+              <a class="mx-2" href="/register"><button class="btn btn-outline-info" type="submit">Signup</button></a>
+            <% } else { %>
 
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center">
-
-      <div class="logo me-auto">
-        <h5>Society Times</h5>
-        <!-- <a href="index.html"><img src="./assets/logo2.png" alt="" class="img-fluid"></a> -->
-      </div>
-
-      <nav id="navbar" class="navbar order-last order-lg-0">
-        <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li class="dropdown"><a href="#"><span>About</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a class="nav-link scrollto" href="#about">About Us</a></li>
-              <li><a class="nav-link scrollto" href="#testimonials">Testimonials</a></li>
               
-            </ul>
-          </li>
-          <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto " href="">Events</a></li>
-          <li><a class="nav-link scrollto " href="">Societies</a></li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+              <a href="#" style="font-size:17px;; font-family:sans-serif ; color:black;" class="nav-link text-capitalize">Hello <%= currentUser.name %></a>
 
-
-    </div>
-  </header><!-- End Header -->
+              <a href="/profile"><i class="fa fa-user-circle" style="font-size: 28px; color: #009cea; margin-right:25px"></i></a>
+              <a class="mx-2" href="/logout"><button class="btn btn-outline-info" type="submit">Logout</button></a>
+            <% } %>
+          </div>
+          <i class="bi bi-list mobile-nav-toggle"></i>
+  
+        </nav><!-- .navbar -->
+  
+  
+      </div>
+    </header><!-- End Header -->
 
   <!-- ======= Hero Section ======= -->
   <section id="hero">
@@ -72,7 +60,7 @@
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left">
-          <img src="assets/img/hero-img.png" class="img-fluid" alt="">
+          <img src="" class="img-fluid" alt="">
         </div>
       </div>
     </div>
@@ -658,7 +646,10 @@
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <!-- Vendor JS Files -->
+  <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
 
   <!-- Template Main JS File -->

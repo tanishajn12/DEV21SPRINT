@@ -1,37 +1,28 @@
-  <!-- ======= Header ======= -->
-  <header id="header" class="fixed-top d-flex align-items-center">
-    <div class="container d-flex align-items-center">
-
-      <div class="logo me-auto">
-        <!-- <h5>Society Times</h5> -->
-        <a href=""><img src="./assets/logo2.png" alt="" class="img-fluid"></a>
-      </div>
-
-      <nav id="navbar" class="navbar order-last order-lg-0">
-        
-        <ul>
-          <li><a class="nav-link scrollto active" href="/">Home</a></li>
-          
-          <!-- <li><a class="nav-link scrollto" href="/">Services</a></li> -->
-          <li><a class="nav-link scrollto " href="/events">Events</a></li>
-          <li><a class="nav-link scrollto " href="/societies">Societies</a></li>
-          <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
-        </ul>
-        <div class="d-flex" role="search">
-          <% if (!currentUser) { %>
-            <a class="mx-2" href="/login"><button class="btn btn-outline-info" type="submit">Login</button></a>
-            <a class="mx-2" href="/register"><button class="btn btn-outline-info" type="submit">Signup</button></a>
-          <% } else { %>
-            
-            <a href="#" style="font-size:17px;; font-family:sans-serif ; color:black;" class="nav-link text-capitalize">Hello <%= currentUser.name %></a>
-            <a href="/profile"><i class="fa fa-user-circle" style="font-size: 28px; color: #009cea; margin-right:25px"></i></a>
-            <a class="mx-2" href="/logout"><button style="text-decoration:none" class="btn btn-outline-info " type="submit">Logout</button></a>
-          <% } %>
-        </div>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-
-      </nav><!-- .navbar -->
-
-
+<header id="header" class="fixed-top d-flex align-items-center">
+  <div class="container d-flex align-items-center">
+    <div class="logo me-auto">
+      <!-- <h5>Society Times</h5> -->
+      <a href=""><img src="./assets/logo2.png" alt="" class="img-fluid"></a>
     </div>
-  </header><!-- End Header -->
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul>
+        <li><a class="nav-link scrollto active" href="/">Home</a></li>
+        <!-- <li><a class="nav-link scrollto" href="/">Services</a></li> -->
+        <li><a class="nav-link scrollto " href="/events">Events</a></li>
+        <li><a class="nav-link scrollto " href="/societies">Societies</a></li>
+        <li><a class="nav-link scrollto" href="/contact">Contact</a></li>
+      </ul>
+      <div class="d-flex" role="search">
+        <% if (!currentUser) { %>
+          <a class="mx-2" href="/login"><button class="btn btn-outline-info" type="submit">Login</button></a>
+          <a class="mx-2" href="/register"><button class="btn btn-outline-info" type="submit">Signup</button></a>
+        <% } else { %>
+          <a href="#" style="font-size:17px; font-family:sans-serif; color:black;" class="nav-link text-capitalize">Hello <%= currentUser.name %></a>
+          <a href="/profile"><i class="fa fa-user-circle" style="font-size: 28px; color: #009cea; margin-right:25px"></i></a>
+          <a class="mx-2" href="/logout"><button style="text-decoration:none" class="btn btn-outline-info" type="submit">Logout</button></a>
+        <% } %>
+      </div>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </div>
+</header><!-- End Header -->

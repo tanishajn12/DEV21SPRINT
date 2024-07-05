@@ -10,6 +10,7 @@ const reviewRoutes = require("./routes/review");
 const eventRoutes = require("./routes/event");
 const registrationRoutes = require("./routes/registration")
 const societyRoutes = require("./routes/society")
+const analyticsRoutes = require("./routes/analyticRoutes")
 const authRoutes = require("./routes/auth");
 const profileRoutes = require('./routes/profile');
 const passport= require('passport');
@@ -75,9 +76,8 @@ app.use(reviewRoutes);
 app.use(authRoutes);
 app.use(registrationRoutes);
 app.use(societyRoutes);
-app.use(profileRoutes)
-// app.use(productApi);
-// app.use(cartRoutes);
+app.use(profileRoutes);
+app.use(analyticsRoutes)
 
 // seedDB(); //run only once
 

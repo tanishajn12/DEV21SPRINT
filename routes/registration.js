@@ -27,7 +27,7 @@ router.post('/events/:id/register', isLoggedIn, async (req,res)=>{
         event.registeredUsers.push(req.user._id);
 
         // Add the event to the user's registeredEvents
-        const user= await User.findById(req.user,_id);
+        const user= await User.findById(req.user._id);
         user.registeredEvents.push(event._id);
 
 
@@ -41,10 +41,11 @@ router.post('/events/:id/register', isLoggedIn, async (req,res)=>{
         //save method is from mongo db hence await method
         await event.save();
         await registration.save(); 
-        await req.user.save();
+        await user.save();
 
 
         //adding flash message
+        // console.log("registered successfully");
         req.flash('success' , 'Registered successfully');
         res.redirect(`/events/${id}`);
     }

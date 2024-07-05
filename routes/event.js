@@ -1,6 +1,7 @@
 const express =  require("express");
 const Event = require('../models/Event');
 const Society = require('../models/Society');
+const User = require('../models/User');
 const Review = require('../models/Review');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
@@ -86,7 +87,7 @@ router.get('/events/:id/registrations', isLoggedIn,isEventAuthor, async (req, re
     res.render('events/registrations', { event });
 });
 
-router.get('/events/:id/edit',  async (req,res)=> {
+router.get('/events/:id/edit', isLoggedIn,isEventAuthor, async (req,res)=> {
     try{
         let {id} = req.params;
         let foundEvent = await Event.findById(id);
@@ -169,6 +170,26 @@ router.delete('/events/:id', isLoggedIn, isAdmin, isEventAuthor, async (req, res
     
     catch (e) {
         res.render('error', { err: e.message });
+    }
+});
+
+
+router.get('/events/:id/analytics', isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const event = await Event.findById(id);
+        if (!event) {
+            req.flash('error', 'Event not found');
+            return res.redirect('/events');
+        }
+
+        const analytics = await getEventAnalytics(id);
+
+        res.render('events/analytics', { analytics, eventId: id });
+    } catch (e) {
+        console.error(e);
+        req.flash('error', 'Failed to load analytics');
+        res.redirect('/events');
     }
 });
 

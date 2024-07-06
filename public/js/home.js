@@ -1,4 +1,5 @@
 
+
 document.addEventListener("DOMContentLoaded", function() {
   const toggleButton = document.querySelector('.mobile-nav-toggle');
   const navbar = document.getElementById('navbar');

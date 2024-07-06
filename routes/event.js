@@ -173,24 +173,71 @@ router.delete('/events/:id', isLoggedIn, isAdmin, isEventAuthor, async (req, res
     }
 });
 
+// Function to fetch event analytics
+const getEventAnalytics = async (eventId) => {
+    try {
+        const event = await Event.findById(eventId).populate('registeredUsers');
+        if (!event) {
+            throw new Error('Event not found');
+        }
 
-router.get('/events/:id/analytics', isLoggedIn, isAdmin, async (req, res) => {
+        // Initialize counts
+        const branchCounts = {};
+        const yearCounts = {};
+
+        // Aggregate counts by branch and year
+        event.registeredUsers.forEach(user => {
+            const { branch, year } = user;
+
+            // Count by branch
+            if (branch) {
+                if (!branchCounts[branch]) {
+                    branchCounts[branch] = 0;
+                }
+                branchCounts[branch]++;
+            }
+
+            // Count by year
+            if (year) {
+                if (!yearCounts[year]) {
+                    yearCounts[year] = 0;
+                }
+                yearCounts[year]++;
+            }
+        });
+
+        return { branchCounts, yearCounts };
+    } catch (error) {
+        console.error('Error fetching event analytics:', error);
+        throw error; // Propagate error to be handled in route
+    }
+};
+
+// Route to render event analytics page
+router.get('/events/:id/analytics', isLoggedIn, isAdmin,isEventAuthor, async (req, res) => {
     try {
         const { id } = req.params;
+        
+        // Fetch event details
         const event = await Event.findById(id);
         if (!event) {
             req.flash('error', 'Event not found');
             return res.redirect('/events');
         }
 
+        // Fetch analytics data
         const analytics = await getEventAnalytics(id);
 
-        res.render('events/analytics', { analytics, eventId: id });
-    } catch (e) {
-        console.error(e);
+        res.render('events/analytics', { branchCounts: analytics.branchCounts, yearCounts: analytics.yearCounts });
+    } 
+    
+    catch (error) {
+        console.error('Error in /events/:id/analytics route:', error);
         req.flash('error', 'Failed to load analytics');
         res.redirect('/events');
     }
 });
+
+
 
 module.exports = router;

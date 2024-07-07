@@ -24,13 +24,28 @@ router.get("/society/new", isLoggedIn, isAdmin, (req, res) => {
 });
 
 // Add new society
+// Add new society
 router.post('/societies', isLoggedIn, isAdmin, validateSociety, async (req, res) => {
     try {
-        let { name, img, type, description, email, instagram, linkedin } = req.body; 
-        await Society.create({ name, img, type, description, email, instagram, linkedin, societyAdmin: req.user._id });
+        const { name, img, type, description, email, instagram, linkedin } = req.body; 
+        console.log("Creating society with data:", req.body);
+
+        const newSociety = new Society({
+            name,
+            img,
+            type,
+            description,
+            email,
+            instagram,
+            linkedin,
+            societyAdmin: req.user._id
+        });
+
+        await newSociety.save();
         req.flash('success', 'Society Added Successfully');
         res.redirect('/societies');
     } catch (e) {
+        console.error(e);
         res.render('error', { err: e.message });
     }
 });

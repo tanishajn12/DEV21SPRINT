@@ -69,7 +69,17 @@
                             <p><a href="<%= event.registerLink %>" class="btn btn-info">Register Here</a></p>
                         <% } %> -->
                         <a href="/events/<%= event._id %>" class="btn btn-primary">View Event</a>
-                    
+                        <% if(currentUser && currentUser.role === "student"){ %>
+                            <span class="btn like-btn" event-id="<%= event._id %>">
+                                <% if (currentUser && currentUser.wishlist.includes(event._id)) { %>
+                                    <i class="fa-solid fa-heart" style="font-size:20px; color: #ff1f1f;"></i>
+                                <% } else { %>
+                                    <i class="fa-regular fa-heart" style="font-size:20px"></i>
+                                <% } %>
+                            </span>
+                        <% } %>
+                        
+
                         <% if(currentUser && currentUser.role === "admin"){ %>
                             <a href="/events/<%= event._id %>/edit" class="btn btn-warning">Edit Event</a>
                             <form action="/events/<%= event._id %>?_method=DELETE" method="POST" class="d-inline">

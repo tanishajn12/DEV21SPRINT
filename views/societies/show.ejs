@@ -9,7 +9,7 @@
     
 </style>
 
-<div class="container mt-5" style="margin-top: 80px;">
+<div class="container mt-5" style="margin-top: 80px; margin-bottom: 50px">
     <div class="row align-items-center">
         <div class="col-md-3 text-center">
             <img src="<%= foundSociety.img %>" alt="<%= foundSociety.name %>" class="img-fluid" style="max-width: 100%;">
@@ -41,7 +41,7 @@
                 <div class="card shadow">
                     <img src="<%= event.img %>" class="card-img-top" alt="<%= event.name %>">
                     <div class="card-body">
-                        <h5 class="card-title"><%= event.name %></h5>
+                        <h5 class="card-title" style="font-weight:bold"><%= event.name %></h5>
                         <p class="card-text">Date: <%= event.date.toDateString() %></p>
                         <p class="card-text">Venue: <%= event.venue %></p>
                         <a href="/events/<%= event._id %>" class="btn btn-primary">View Event</a>

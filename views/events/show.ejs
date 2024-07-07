@@ -85,16 +85,91 @@
         margin-bottom: 0.5rem;
         font-weight: bold;
     }
+
+    .info-box-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px; /* Adjust the spacing between boxes as needed */
+        margin-top: 20px;
+    }
+    
+    .info-box {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #f9f9f9;
+        width:fit-content; /* Adjust the width as needed */
+        text-align: center;
+        transition: transform 0.2s;
+    }
+    
+    .info-box:hover {
+        transform: scale(1.05);
+    }
+    
+    .info-box .icon-heart {
+        margin-right: 15px;
+        font-size: 30px; /* Adjust the size of the icon as needed */
+        color: #ff0000; /* Use your primary color */
+    }
+    .info-box .icon-register {
+        margin-right: 15px;
+        font-size: 30px; /* Adjust the size of the icon as needed */
+        color: #005cc6; /* Use your primary color */
+    }
+    
+    .info-text div {
+        font-size: 12px;
+        font-weight: bold;
+    
+    }
+    
+    .info-text div:last-child {
+        font-size: 20px;
+        color: #000000; /* Use your primary color */
+    }
+    
 </style>
 
+
+
 <div class="container mt-5">
-    <h2 class="text-center mb-4"><%= foundEvent.name %></h2>
+    <!-- <h2 class="text-center mb-4"><%= foundEvent.name %></h2>
 
     <% if (currentUser && currentUser.role === "admin") { %>
         <div class="registration-count">
             Total Registrations: <%= foundEvent.registrations.length %>
+            Likes Count : <%=foundEvent.likedUsers.length%>
+        </div>
+    <% } %> -->
+    <h2 class="text-center mb-4"><%= foundEvent.name %></h2>
+
+    <% if (currentUser && currentUser.role === "admin") { %>
+        <div class="info-box-container">
+            <div class="info-box">
+                <div class="icon-register">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="info-text">
+                    <div>Registrations Count: <%= foundEvent.registrations.length%></div>
+                    
+                </div>
+            </div>
+            <div class="info-box">
+                <div class="icon-heart">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="info-text">
+                    <div>Likes Count: <%= foundEvent.likedUsers.length%></div>
+                    
+                </div>
+            </div>
         </div>
     <% } %>
+
 
     <div class="row">
         <% if (currentUser && currentUser.role === "admin") { %>

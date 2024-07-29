@@ -17,6 +17,13 @@ const profileRoutes = require('./routes/profile');
 const passport= require('passport');
 const User = require("./models/User");
 const LocalStrategy = require('passport-local');
+// require("dotenv").config();
+
+// let url = "mongodb+srv://jaintanisha047:rdOghhTALJRgjRyh@cluster0.azjmeon.mongodb.net/college"
+
+// mongoose.connect(url) //returns a promise
+// .then(()=>{console.log("DB connected")})
+// .catch((err)=> {console.log("Error is:",err)})
 
 mongoose.connect('mongodb://127.0.0.1:27017/college') //returns a promise
 .then(()=>{console.log("DB connected")})
@@ -83,6 +90,12 @@ app.use(contactRoute)
 // app.use(analyticsRoutes)
 
 // seedDB(); //run only once
+
+// const PORT = process.env.PORT;
+// app.listen(PORT,()=>{
+//     console.log(`Server running at port : ${PORT}`)
+// })
+
 
 const PORT = 8080;
 app.listen(PORT,()=>{

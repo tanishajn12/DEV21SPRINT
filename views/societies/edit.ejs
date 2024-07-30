@@ -88,8 +88,13 @@
                                 Looks good!
                             </div>
                             <div class="invalid-feedback">
-                                Please enter a valid Linkedin URL.
+                                Please enter a valid LinkedIn URL.
                             </div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" name="recruitmentOpen" id="recruitmentOpen" <%= foundSociety.recruitmentOpen ? 'checked' : '' %> >
+                            <label class="form-check-label" for="recruitmentOpen">Recruitment Open</label>
                         </div>
 
                         <div class="d-grid">
@@ -103,3 +108,4 @@
 </div>
 
 <%- include('../partials/footer') %>
+

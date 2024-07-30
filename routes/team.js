@@ -14,7 +14,7 @@ const Schema = mongoose.Schema;
 // Route /recruitments/:id/:teamid (PATCH): Handles form submission to update a specific team's details.
 // Route /recruitments/:id/:teamid (DELETE): Handles deletion of a specific team and removes it from the society's teams array.
 
-const {isLoggedIn, isAdmin}=require('../middleware');
+const {isLoggedIn, isAdmin, isSocietyAdmin}=require('../middleware');
 const router = express.Router(); 
 
 // Display all societies 
@@ -31,15 +31,18 @@ router.get("/recruitments", async (req, res) => {
 router.get('/recruitments/:id', isLoggedIn, async (req, res) => {
     try {
         const { id } = req.params;
-        let foundSociety = await Society.findById(id).populate('teams');
+        const foundSociety = await Society.findById(id).populate('teams'); 
         res.render('teams/show', { foundSociety, success: req.flash('msg') });
-    } catch (e) {
+    } 
+    
+    catch (e) {
+        console.error(e);
         res.render('error', { err: e.message });
     }
 });
 
 // Show form to add a new team under a specific society
-router.get("/recruitments/:id/new", isLoggedIn, isAdmin, async (req, res) => {
+router.get("/recruitments/:id/new", isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
         const { id } = req.params;
         let foundSociety = await Society.findById(id);
@@ -50,29 +53,43 @@ router.get("/recruitments/:id/new", isLoggedIn, isAdmin, async (req, res) => {
 });
 
 // Add a new team under a specific society
-router.post('/recruitments/:id', isLoggedIn, isAdmin, async (req, res) => {
+router.post('/recruitments/:id', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, description, type } = req.body;
-        const newTeam = new Team({ name, description, type, society: id });
+        const { name, desc, registerLink, lastdate } = req.body;
 
-        // Save the new team
+        // Create a new team instance with the form data
+        const newTeam = new Team({
+            name,
+            desc,
+            registerLink,
+            lastdate,
+            society: id
+        });
+
+        // Save the new team to the database
         await newTeam.save();
 
-        // Add the team to the society's teams array
+        // Add the newly created team to the society's teams array
         const society = await Society.findById(id);
         society.teams.push(newTeam._id);
         await society.save();
 
-        req.flash('success', 'Team Added Successfully');
+        // Set a success message and redirect back to the society's recruitment page
+        req.flash('success', 'Team added successfully');
         res.redirect(`/recruitments/${id}`);
-    } catch (e) {
-        res.render('error', { err: e.message });
+    } 
+    
+    catch (e) {
+        console.error(e);
+        req.flash('error', 'Failed to add the team. Please try again.');
+        res.redirect('back');
     }
 });
 
+
 // Get registrations for a specific team under a society
-router.get('/recruitments/:id/:teamid/registrations', isLoggedIn, isAdmin, async (req, res) => {
+router.get('/recruitments/:id/:teamid/registrations', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
         const { teamid } = req.params;
         const team = await Team.findById(teamid).populate({
@@ -86,34 +103,50 @@ router.get('/recruitments/:id/:teamid/registrations', isLoggedIn, isAdmin, async
 });
 
 // Show form to edit a specific team's details
-router.get('/recruitments/:id/:teamid/edit', isLoggedIn, isAdmin, async (req, res) => {
+router.get('/recruitments/:id/:teamid/edit', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
-        const { teamid } = req.params;
+        const { id, teamid } = req.params;
         const team = await Team.findById(teamid);
+        if (!team) {
+            req.flash('error', 'Team not found');
+            return res.redirect(`/recruitments/${id}`);
+        }
         res.render('teams/edit', { team });
-    } catch (e) {
+    } 
+    
+    catch (e) {
+        console.error(e);
         res.render('error', { err: e.message });
     }
 });
+
 
 // Edit a specific team's details
-router.patch('/recruitments/:id/:teamid', isLoggedIn, isAdmin, async (req, res) => {
+router.patch('/recruitments/:id/:teamid', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
-        const { teamid } = req.params;
-        const { name, description, type } = req.body;
+        const { id, teamid } = req.params;
+        const { name, desc, registerLink, lastdate } = req.body;
 
         // Update the team's details
-        await Team.findByIdAndUpdate(teamid, { name, description, type });
+        await Team.findByIdAndUpdate(teamid, {
+            name,
+            desc,
+            registerLink,
+            lastdate
+        });
 
-        req.flash('success', 'Team Edited Successfully');
-        res.redirect(`/recruitments/${req.params.id}`);
+        req.flash('success', 'Team edited successfully');
+        res.redirect(`/recruitments/${id}`);
     } catch (e) {
-        res.render('error', { err: e.message });
+        console.error(e);
+        req.flash('error', 'Failed to edit the team. Please try again.');
+        res.redirect('back');
     }
 });
 
+
 // Delete a specific team
-router.delete('/recruitments/:id/:teamid', isLoggedIn, isAdmin, async (req, res) => {
+router.delete('/recruitments/:id/:teamid', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
         const { id, teamid } = req.params;
 
@@ -125,8 +158,12 @@ router.delete('/recruitments/:id/:teamid', isLoggedIn, isAdmin, async (req, res)
 
         req.flash('success', 'Team Deleted Successfully');
         res.redirect(`/recruitments/${id}`);
-    } catch (e) {
-        res.render('error', { err: e.message });
+    } 
+    
+    catch (e) {
+        console.error(e);
+        req.flash('error', 'Failed to delete the team. Please try again.');
+        res.redirect(`/recruitments/${id}`);
     }
 });
 

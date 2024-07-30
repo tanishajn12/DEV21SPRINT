@@ -1,0 +1,46 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<style>
+    body {
+        padding-top: 60px;
+    }
+</style>
+
+<div class="container mt-5">
+    <h1 class="text-center"><%= foundSociety.name %></h1>
+
+    <% if(currentUser && currentUser.role === "admin"){ %>
+        <div class="text-center mb-4">
+            <a href="/recruitments/<%= foundSociety._id %>/new" class="btn btn-success">Add New Team</a>
+        </div>
+    <% } %>
+
+    <div class="row mt-4">
+        <% if (foundSociety.teams && foundSociety.teams.length > 0) { %>
+            <% foundSociety.teams.forEach(team => { %>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="card text-center shadow h-100">
+                        <div class="card-body">
+                            <h4 class="card-title"><%= team.name %></h4>
+                            <p class="card-text"><%= team.desc %></p>
+
+                            <% if(currentUser && currentUser.role === "admin"){ %>
+                                <div class="mt-2">
+                                    <a href="/recruitments/<%= foundSociety._id %>/<%= team._id %>/edit" class="btn btn-warning">Edit Team</a>
+                                    <form action="/recruitments/<%= foundSociety._id %>/<%= team._id %>?_method=DELETE" method="POST" class="d-inline">
+                                        <button class="btn btn-danger">Delete Team</button>
+                                    </form>
+                                </div>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No teams available for this society.</p>
+        <% } %>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

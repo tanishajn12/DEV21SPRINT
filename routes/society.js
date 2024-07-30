@@ -24,11 +24,13 @@ router.get("/society/new", isLoggedIn, isAdmin, (req, res) => {
 });
 
 // Add new society
-// Add new society
 router.post('/societies', isLoggedIn, isAdmin, validateSociety, async (req, res) => {
     try {
-        const { name, img, type, description, email, instagram, linkedin } = req.body; 
+        const { name, img, type, description, email, instagram, linkedin, recruitmentOpen } = req.body; 
         console.log("Creating society with data:", req.body);
+
+        // Handle recruitmentOpen checkbox, default to false if not checked
+        const isRecruitmentOpen = recruitmentOpen === 'on';
 
         const newSociety = new Society({
             name,
@@ -38,7 +40,8 @@ router.post('/societies', isLoggedIn, isAdmin, validateSociety, async (req, res)
             email,
             instagram,
             linkedin,
-            societyAdmin: req.user._id
+            societyAdmin: req.user._id,
+            recruitmentOpen: isRecruitmentOpen
         });
 
         await newSociety.save();
@@ -49,6 +52,31 @@ router.post('/societies', isLoggedIn, isAdmin, validateSociety, async (req, res)
         res.render('error', { err: e.message });
     }
 });
+
+
+// Toggle recruitment status
+router.post('/societies/:id/toggleRecruitment', isLoggedIn, isAdmin, async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { recruitmentOpen } = req.body; // This will be a string 'on' or undefined
+
+        // Convert to boolean
+        const isRecruitmentOpen = recruitmentOpen === 'on';
+
+        // Find the society and update the recruitmentOpen status
+        const society = await Society.findByIdAndUpdate(id, { recruitmentOpen: isRecruitmentOpen }, { new: true });
+
+        if (!society) {
+            return res.status(404).send('Society not found');
+        }
+
+        res.redirect(`/societies/${id}`);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send('Error updating recruitment status');
+    }
+});
+
 
 // Show particular society
 router.get('/societies/:id', isLoggedIn, async (req, res) => {
@@ -76,12 +104,25 @@ router.get('/societies/:id/edit', isLoggedIn, isAdmin, isSocietyAdmin, async (re
 router.patch('/societies/:id', isLoggedIn, isAdmin, isSocietyAdmin, validateSociety, async (req, res) => {
     try {
         let { id } = req.params;
-        let { name, img, type, description, email, instagram, linkedin } = req.body;
-        const society = await Society.findByIdAndUpdate(id, { name, img, type, description, email, instagram, linkedin });
+        let { name, img, type, description, email, instagram, linkedin, recruitmentOpen } = req.body;
 
-        //Update associated events with the new society details
-        await Event.updateMany({ society: id }, { society: society._id });
+        // Handle recruitmentOpen checkbox, default to false if not checked
+        const isRecruitmentOpen = recruitmentOpen === 'on';
 
+        // Update the society
+        const updatedSociety = await Society.findByIdAndUpdate(id, { 
+            name, 
+            img, 
+            type, 
+            description, 
+            email, 
+            instagram, 
+            linkedin, 
+            recruitmentOpen: isRecruitmentOpen 
+        }, { new: true, runValidators: true });
+
+        // Update associated events with the new society details
+        await Event.updateMany({ society: id }, { society: updatedSociety._id });
 
         req.flash('success', 'Society Edited Successfully');
         res.redirect(`/societies/${id}`);
@@ -89,6 +130,7 @@ router.patch('/societies/:id', isLoggedIn, isAdmin, isSocietyAdmin, validateSoci
         res.render('error', { err: e.message });
     }
 });
+
 
 // Delete society
 router.delete('/societies/:id', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {

@@ -52,7 +52,19 @@ const societySchema = new Schema({
     events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
-    }]
+    }],
+
+    teams: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Team'
+        }
+    ],
+    recruitmentOpen: {
+        type: Boolean,
+        required: true,
+        default : true
+    },
 });
 
 module.exports = mongoose.model('Society', societySchema);

@@ -26,8 +26,22 @@ const validateReview = (req,res,next) =>{
 }
 
 const validateSociety = (req,res,next) => {
-    let { name, type, description, email, instagram, linkedin } = req.body;
-    const {error} = societySchema.validate({name, type, description, email, instagram, linkedin})
+    let { name, type, description, email, instagram, linkedin, recruitmentOpen } = req.body;
+
+    // Set recruitmentOpen to false if it's undefined or not present
+    recruitmentOpen = req.body.recruitmentOpen === 'on';
+
+    // Validate the data against the schema
+    const { error } = societySchema.validate({
+        name,
+        type,
+        description,
+        email,
+        instagram,
+        linkedin,
+        recruitmentOpen
+    });
+    
     if (error) {
         const msg = error.details.map((err)=> err.message).join(',');
         return res.render('error',{err:msg})

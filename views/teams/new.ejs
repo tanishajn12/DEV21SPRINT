@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-5">
+    <h1 class="text-center">Add New Team for <%= foundSociety.name %></h1>
+    <form action="/recruitments/<%= foundSociety._id %>" method="POST">
+        <div class="form-group">
+            <label for="name">Team Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="desc">Description</label>
+            <textarea class="form-control" id="desc" name="desc" rows="5"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="registerLink">Registration Link</label>
+            <input type="url" class="form-control" id="registerLink" name="registerLink">
+        </div>
+        <div class="form-group">
+            <label for="lastdate">Last Date for Application</label>
+            <input type="date" class="form-control" id="lastdate" name="lastdate" required>
+        </div>
+        <!-- Optional fields for recruitments and applied users are usually not part of the initial form 
+             as they might be handled through other parts of the application or automatically managed. -->
+        <button type="submit" class="btn btn-primary">Create Team</button>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

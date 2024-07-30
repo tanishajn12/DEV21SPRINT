@@ -28,7 +28,8 @@ const societySchema = Joi.object({
     description: Joi.string().required(),
     email: Joi.string().email().required(),
     instagram: Joi.string().uri().allow(''), // Allow empty string if no URL is provided
-    linkedin: Joi.string().uri().allow('') // Allow empty string if no URL is provided
+    linkedin: Joi.string().uri().allow('') ,// Allow empty string if no URL is provided
+    recruitmentOpen: Joi.boolean().required()  // Add this line to include recruitmentOpen
 });
 
 module.exports = { eventSchema, reviewSchema, societySchema };

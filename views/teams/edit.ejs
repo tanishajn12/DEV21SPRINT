@@ -1,0 +1,27 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<div class="container mt-5">
+    <h1 class="text-center">Edit Team Details</h1>
+    <form action="/recruitments/<%= team.society %>/<%= team._id %>?_method=PATCH" method="POST">
+        <div class="form-group">
+            <label for="name">Team Name</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= team.name %>" required>
+        </div>
+        <div class="form-group">
+            <label for="desc">Description</label>
+            <textarea class="form-control" id="desc" name="desc" rows="5"><%= team.desc %></textarea>
+        </div>
+        <div class="form-group">
+            <label for="registerLink">Registration Link</label>
+            <input type="url" class="form-control" id="registerLink" name="registerLink" value="<%= team.registerLink %>">
+        </div>
+        <div class="form-group">
+            <label for="lastdate">Last Date for Application</label>
+            <input type="date" class="form-control" id="lastdate" name="lastdate" value="<%= team.lastdate.toISOString().substring(0, 10) %>" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

@@ -9,6 +9,7 @@ const flash = require("connect-flash");
 const reviewRoutes = require("./routes/review");
 const eventRoutes = require("./routes/event");
 const registrationRoutes = require("./routes/registration")
+const teamRoutes = require("./routes/team")
 const societyRoutes = require("./routes/society")
 const contactRoute = require('./routes/contact');
 const eventApi = require("./routes/eventapi");
@@ -86,7 +87,8 @@ app.use(registrationRoutes);
 app.use(societyRoutes);
 app.use(profileRoutes);
 app.use(eventApi);
-app.use(contactRoute)
+app.use(contactRoute);
+app.use(teamRoutes);
 // app.use(analyticsRoutes)
 
 // seedDB(); //run only once

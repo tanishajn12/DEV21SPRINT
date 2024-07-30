@@ -1,8 +1,13 @@
 <%- include('../partials/header') %>
 <%- include('../partials/navbar') %>
+<style>
+    body{
+        margin-top: 70px;
+    }
+</style>
 
 <div class="container mt-5">
-    <h1 class="text-center">Add New Team for <%= foundSociety.name %></h1>
+    <h2 class="text-center">Add New Team for <%= foundSociety.name %></h2>
     <form action="/recruitments/<%= foundSociety._id %>" method="POST">
         <div class="form-group">
             <label for="name">Team Name</label>

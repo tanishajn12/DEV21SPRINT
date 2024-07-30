@@ -11,6 +11,7 @@ const eventRoutes = require("./routes/event");
 const registrationRoutes = require("./routes/registration")
 const teamRoutes = require("./routes/team")
 const societyRoutes = require("./routes/society")
+const recruitmentRoutes = require("./routes/recruitment");
 const contactRoute = require('./routes/contact');
 const eventApi = require("./routes/eventapi");
 const authRoutes = require("./routes/auth");
@@ -89,6 +90,7 @@ app.use(profileRoutes);
 app.use(eventApi);
 app.use(contactRoute);
 app.use(teamRoutes);
+app.use(recruitmentRoutes);
 // app.use(analyticsRoutes)
 
 // seedDB(); //run only once

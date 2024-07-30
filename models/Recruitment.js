@@ -12,6 +12,19 @@ let recruitmentSchema = new mongoose.Schema({
     team : {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Team'
+    },
+    workLink: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['Applied', 'Accepted', 'Rejected'],
+        default: 'Applied'
+    },
+    appliedAt: {
+        type: Date,
+        default: Date.now
     }
     
 });

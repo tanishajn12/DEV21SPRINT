@@ -2,6 +2,7 @@ const express =  require("express");
 const Society = require('../models/Society');
 const User = require('../models/User');
 const Team = require('../models/Team');
+const Recruitment = require('../models/Recruitment');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -18,11 +19,12 @@ const {isLoggedIn, isAdmin, isSocietyAdmin}=require('../middleware');
 const router = express.Router(); 
 
 // Display all societies 
-router.get("/recruitments", async (req, res) => {
+router.get('/recruitments', isLoggedIn, async (req, res) => {
     try {
-        let societies = await Society.find({});
-        res.render("teams/index", { societies });
+        const societies = await Society.find({}).populate('teams');
+        res.render('teams/index', { societies, currentUser: req.user });
     } catch (e) {
+        console.error(e);
         res.render('error', { err: e.message });
     }
 });
@@ -31,15 +33,18 @@ router.get("/recruitments", async (req, res) => {
 router.get('/recruitments/:id', isLoggedIn, async (req, res) => {
     try {
         const { id } = req.params;
-        const foundSociety = await Society.findById(id).populate('teams'); 
-        res.render('teams/show', { foundSociety, success: req.flash('msg') });
-    } 
-    
-    catch (e) {
+        const foundSociety = await Society.findById(id).populate('teams');
+
+        // Check if the user has already applied to any team in the society
+        const currentUserHasApplied = await Recruitment.exists({ society: id, user: req.user._id });
+
+        res.render('teams/show', { foundSociety, currentUserHasApplied, success: req.flash('msg') });
+    } catch (e) {
         console.error(e);
         res.render('error', { err: e.message });
     }
 });
+
 
 // Show form to add a new team under a specific society
 router.get("/recruitments/:id/new", isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
@@ -87,20 +92,6 @@ router.post('/recruitments/:id', isLoggedIn, isAdmin, isSocietyAdmin, async (req
     }
 });
 
-
-// Get registrations for a specific team under a society
-router.get('/recruitments/:id/:teamid/registrations', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
-    try {
-        const { teamid } = req.params;
-        const team = await Team.findById(teamid).populate({
-            path: 'recruitments',
-            populate: { path: 'user' }
-        });
-        res.render('teams/registrations', { team });
-    } catch (e) {
-        res.render('error', { err: e.message });
-    }
-});
 
 // Show form to edit a specific team's details
 router.get('/recruitments/:id/:teamid/edit', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {

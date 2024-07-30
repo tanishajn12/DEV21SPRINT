@@ -8,8 +8,8 @@
     }
     .society-card img {
         border-radius: 50%;
-        width: 150px;
-        height: 150px;
+        width: 130px;
+        height: 130px;
         object-fit: cover;
         margin: 0 auto;
     }
@@ -26,31 +26,58 @@
     .slider {
         width: 50px;
     }
+
+    .recruitment-toggle-container {
+        display: inline-block;
+        margin:3px;
+    }
+    
+    .form-check-label {
+        margin-right: 30px; /* Adjust as needed for spacing */
+        font-size:18px;
+        display: inline-block;
+    }
+    
+    .form-check-input {
+        height:20px;
+        width:20px;
+
+    }
+    
 </style>
 
 <div class="container mt-5">
     <div class="row">
         <h2 class="text-center">Society Recruitment</h2>
-        <% for (let society of societies) { %>
+        <% societies.forEach(society => { %>
             <div class="col-lg-4 col-md-6 col-sm-12 mb-4 society-card">
                 <div class="card text-center shadow h-100">
                     <div class="card-body">
                         <img class="card-img-top img-fluid" src="<%= society.img %>" alt="<%= society.name %>">
                         <h4 class="card-title"><%= society.name %></h4>
+
                         <% if (currentUser && currentUser.role === 'student') { %>
-                            <a href="/recruitments/<%= society._id %>" class="btn btn-primary apply-btn" <% if (!society.recruitmentOpen) { %> disabled <% } %>>Apply Now</a>
+                            <div class="mt-2">
+                                <% if (society.recruitmentOpen) { %>
+                                    <a href="/recruitments/<%= society._id %>" class="btn btn-primary">Applications Open</a>
+                                <% } else { %>
+                                    <button class="btn btn-danger" disabled>Application Closed</button>
+                                <% } %>
+                            </div>
                         <% } else if (currentUser && currentUser.role === 'admin') { %>
                             <div>
                                 <a href="/recruitments/<%= society._id %>" class="btn btn-info">View Teams</a>
                                 <a href="/societies/<%= society._id %>/data" class="btn btn-secondary">Show Data</a>
-                                <label class="form-check-label" for="recruitment-toggle-<%= society._id %>">Recruitment Open</label>
-                                <input type="checkbox" class="form-check-input slider" id="recruitment-toggle-<%= society._id %>" <% if (society.recruitmentOpen) { %> checked <% } %> onchange="toggleRecruitment('<%= society._id %>')">
+                                <div class="recruitment-toggle-container">
+                                    <label class="form-check-label" for="recruitment-toggle-<%= society._id %>">Recruitment Open</label>
+                                    <input type="checkbox" class="form-check-input slider" id="recruitment-toggle-<%= society._id %>" <% if (society.recruitmentOpen) { %> checked <% } %> onchange="toggleRecruitment('<%= society._id %>')">
+                                </div>
                             </div>
                         <% } %>
                     </div>
                 </div>
             </div>
-        <% } %>
+        <% }); %>
     </div>
 </div>
 

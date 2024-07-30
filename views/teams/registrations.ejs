@@ -1,0 +1,93 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<style>
+    body {
+        padding-top: 60px;
+    }
+
+    .registrations-container {
+        margin-top: 50px;
+    }
+
+    .registrations-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0 auto;
+    }
+
+    .registrations-table th, .registrations-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    .registrations-table th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+
+    .registrations-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .registrations-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .registrations-header {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .registrations-header h1 {
+        font-size: 2em;
+        margin-bottom: 10px;
+    }
+
+    .registrations-header p {
+        font-size: 1.1em;
+        color: #555;
+    }
+</style>
+
+<div class="container registrations-container">
+    <div class="registrations-header">
+        <h1>Registrations for <%= team.name %> of <%= society.name %></h1>
+    </div>
+
+    <% if (team.recruitments && team.recruitments.length > 0) { %>
+        <table class="registrations-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Contact No</th>
+                    <th>Email</th>
+                    <th>Branch</th>
+                    <th>Year</th>
+                    <th>Work</th>
+                    <th>Status</th>
+                    <th>Date Applied</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% team.recruitments.forEach(recruitment => { %>
+                    <tr>
+                        <td><%= recruitment.user.name %></td>
+                        <td><%= recruitment.user.contactno %></td>
+                        <td><%= recruitment.user.email %></td>
+                        <td><%= recruitment.user.branch %></td>
+                        <td><%= recruitment.user.year %></td>
+                        <td><%= recruitment.workLink %></td>
+                        <td><%= recruitment.status %></td>
+                        <td><%= new Date(recruitment.appliedAt).toLocaleDateString() %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>No registrations found.</p>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

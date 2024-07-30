@@ -4,13 +4,72 @@
 <style>
     body {
         padding-top: 60px;
+        background-color: #f8f9fa;
+    }
+    .container {
+        max-width: 1200px;
+    }
+    
+    .logo {
+        width: 120px;
+        height: auto;
+    }
+    .page-header {
+        margin-bottom: 40px;
+        text-align: center;
+    }
+    .page-header h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+    .page-header .disclaimer {
+        font-size: 1.1rem;
+        color: #ff1900;
+        font-weight: 800;
+        margin-top: 10px;
+    }
+    .card {
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+    }
+    .card-body {
+        padding: 1.25rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .btn {
+        margin: 5px;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+    .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
     }
 </style>
 
 <div class="container mt-5">
-    <h1 class="text-center"><%= foundSociety.name %></h1>
+    <div class="page-header">
+        <img src="<%= foundSociety.img %>" alt="Logo" class="logo">
+        <h1><%= foundSociety.name %> - Teams</h1>
+        <% if (currentUser && currentUser.role === "student") { %>
+            <h3 class="disclaimer">You can only apply to a single team at a time.</h3>
+        <% } %>
+    </div>
 
-    <% if(currentUser && currentUser.role === "admin"){ %>
+    <% if (currentUser && currentUser.role === "admin") { %>
         <div class="text-center mb-4">
             <a href="/recruitments/<%= foundSociety._id %>/new" class="btn btn-success">Add New Team</a>
         </div>
@@ -23,14 +82,28 @@
                     <div class="card text-center shadow h-100">
                         <div class="card-body">
                             <h4 class="card-title"><%= team.name %></h4>
-                            <p class="card-text"><%= team.desc %></p>
+                            <p class="card-text"><strong>Description: </strong><%= team.desc %></p>
+                            <!-- <p class="card-text"><strong>Last Date To Apply: </strong><%= team.lastdate %></p> -->
 
-                            <% if(currentUser && currentUser.role === "admin"){ %>
+                            <% if (currentUser && currentUser.role === "admin") { %>
                                 <div class="mt-2">
                                     <a href="/recruitments/<%= foundSociety._id %>/<%= team._id %>/edit" class="btn btn-warning">Edit Team</a>
                                     <form action="/recruitments/<%= foundSociety._id %>/<%= team._id %>?_method=DELETE" method="POST" class="d-inline">
                                         <button class="btn btn-danger">Delete Team</button>
                                     </form>
+                                    <a href="/recruitments/<%= foundSociety._id %>/<%= team._id %>/registrations" class="btn btn-primary">Show Registrations</a>
+                                </div>
+                            <% } else if (currentUser && currentUser.role === "student") { %>
+                                <div class="mt-2">
+                                    <% if (foundSociety.recruitmentOpen) { %>
+                                        <% if (!currentUserHasApplied) { %>
+                                            <a href="/recruitments/<%= foundSociety._id %>/<%= team._id %>/apply" class="btn btn-primary">Apply Now</a>
+                                        <% } else { %>
+                                            <button class="btn btn-danger" disabled>Already Applied</button>
+                                        <% } %>
+                                    <% } else { %>
+                                        <button class="btn btn-danger" disabled>Application Closed</button>
+                                    <% } %>
                                 </div>
                             <% } %>
                         </div>
@@ -38,7 +111,7 @@
                 </div>
             <% }) %>
         <% } else { %>
-            <p>No teams available for this society.</p>
+            <p class="text-center">No teams available for this society.</p>
         <% } %>
     </div>
 </div>

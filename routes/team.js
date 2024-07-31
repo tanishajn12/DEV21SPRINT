@@ -137,11 +137,11 @@ router.patch('/recruitments/:id/:teamid', isLoggedIn, isAdmin, isSocietyAdmin, a
 
 // Assuming you have a middleware to check if the user is logged in
 router.post('/recruitments/:id/toggleRecruitment', isLoggedIn, async (req, res) => {
-    const societyId = req.params.id;
+    const id = req.params.id;
     const currentUser = req.user; 
 
     try {
-        const society = await Society.findById(societyId);
+        const society = await Society.findById(id);
 
         if (!society) {
             return res.status(404).send('Society not found');

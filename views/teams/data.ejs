@@ -106,9 +106,9 @@
                                         <th>Email</th>
                                         <th>Branch</th>
                                         <th>Year</th>
-                                        
-                                        <th>Date Applied</th>
                                         <th>Status</th>
+                                        <th>Date Applied</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -119,23 +119,10 @@
                                             <td><%= recruitment.user.email %></td>
                                             <td><%= recruitment.user.branch %></td>
                                             <td><%= recruitment.user.year %></td>
-                                            
+                                            <td><%= recruitment.status %></td>
                                             <td><%= new Date(recruitment.appliedAt).toLocaleDateString() %></td>
 
-                                            <td>
-
-                                                <form action="/recruitments/<%= society._id %>/data" method="POST">
-                                                    <input type="hidden" name="_method" value="PATCH">
-                                                    <input type="hidden" name="userId" value="<%= recruitment.user._id %>">
-                                                    <select name="status" class="form-control">
-                                                        <option value="Applied" <%= recruitment.status === 'Applied' ? 'selected' : '' %>>Applied</option>
-                                                        <option value="Accepted" <%= recruitment.status === 'Accepted' ? 'selected' : '' %>>Accepted</option>
-                                                        <option value="Rejected" <%= recruitment.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
-                                                    </select>
-                                                    <button type="submit" class="btn btn-primary mt-2">Update Status</button>
-                                                </form>
-                                                
-
+                                            
                                             </td>
                                         </tr>
                                     <% }) %>

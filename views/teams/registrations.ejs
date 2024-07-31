@@ -81,7 +81,7 @@
                         <td><%= recruitment.workLink %></td>
                         <td>
                             <%= recruitment.status %>
-                            <a href="/recruitments/<%= society._id %>/<%= team._id %>/registrations/edit?userId=<%= recruitment.user._id %>" class="btn btn-danger btn-update">Edit Status</a>
+                            <a href="/recruitments/<%= society._id %>/<%= team._id %>/registrations/edit?userId=<%= recruitment.user._id %>" class="btn btn-danger btn-update">Edit</a>
                         </td>
                         <td><%= new Date(recruitment.appliedAt).toLocaleDateString() %></td>
                     </tr>

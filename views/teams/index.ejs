@@ -67,7 +67,7 @@
                         <% } else if (currentUser && currentUser.role === 'admin' && currentUser._id.toString() === society.societyAdmin.toString()) { %>
                             <div class="recruitment-toggle-container">
                                 <a href="/recruitments/<%= society._id %>" class="btn btn-info">View Teams</a>
-                                <a href="/societies/<%= society._id %>/data" class="btn btn-secondary">Show Data</a>
+                                <a href="/recruitments/<%= society._id %>/data" class="btn btn-secondary">Show Data</a>
                                 <label class="form-check-label" for="recruitment-toggle-<%= society._id %>">Recruitment Open</label>
                                 <input type="checkbox" class="form-check-input slider" id="recruitment-toggle-<%= society._id %>" <% if (society.recruitmentOpen) { %> checked <% } %> onchange="toggleRecruitment('<%= society._id %>')">
                             </div>

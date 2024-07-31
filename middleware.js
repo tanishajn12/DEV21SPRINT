@@ -128,7 +128,7 @@ const isSocietyAdmin = async (req, res, next) => {
         }
 
         // Debugging: Check if societyAdmin is null or undefined
-        // console.log('Society Admin:', society.societyAdmin);
+        console.log('Society Admin:', society.societyAdmin);
 
 
         // Check if the current user is the society admin
@@ -142,7 +142,7 @@ const isSocietyAdmin = async (req, res, next) => {
     } catch (error) {
         console.error('Error in isSocietyAdmin middleware:', error);
         req.flash('error', 'An error occurred while checking permissions');
-        res.redirect('/'); // Redirect to a suitable page or error page
+        
     }
 };
 

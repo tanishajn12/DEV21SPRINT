@@ -221,58 +221,58 @@ router.get('/recruitments/:id/data', isLoggedIn, isAdmin, isSocietyAdmin, async 
 });
 
 // GET route to render the edit form for a specific registration
-// GET route to render the edit form for a specific registration
-router.get('/recruitments/:societyId/:teamId/registrations/edit', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
+router.get('/recruitments/:id/:teamId/registrations/edit', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
-        const { societyId, teamId } = req.params;
+        const { id, teamId } = req.params;
         const { userId } = req.query; // Fetch userId from query parameters
 
-        const society = await Society.findById(societyId);
+        const society = await Society.findById(id);
         const team = await Team.findById(teamId);
-        const recruitment = await Recruitment.findOne({ society: societyId, team: teamId, user: userId });
+        const recruitment = await Recruitment.findOne({ society: id, team: teamId, user: userId });
 
         if (!society || !team || !recruitment) {
             req.flash('error', 'Society, Team, or Recruitment entry not found');
-            return res.redirect(`/recruitments/${societyId}/${teamId}/registrations`);
+            return res.redirect(`/recruitments/${id}/${teamId}/registrations`);
         }
 
         res.render('teams/editRegistration', { society, team, currentStatus: recruitment.status, userId });
-    } catch (e) {
-        console.error(e);
-        req.flash('error', 'Error fetching data');
-        res.redirect('/dashboard');
+    } 
+    
+    catch (e) {
+        res.render('error', {err : e.message})
+        
     }
 });
 
-// PATCH route to update the registration status
+
 // PATCH route to update the recruitment status
-router.patch('/recruitments/:societyId/:teamId/registrations', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
+router.patch('/recruitments/:id/:teamId/registrations', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     try {
-        const { societyId, teamId } = req.params;
+        const { id, teamId } = req.params;
         const { userId, status } = req.body;
 
         if (!['Applied', 'Selected', 'Rejected', 'Under Review', 'Shortlisted'].includes(status)) {
             req.flash('error', 'Invalid status');
-            return res.redirect(`/recruitments/${societyId}/${teamId}/registrations/edit?userId=${userId}`);
+            return res.redirect(`/recruitments/${id}/${teamId}/registrations/edit?userId=${userId}`);
         }
 
         const recruitment = await Recruitment.findOneAndUpdate(
-            { user: userId, society: societyId, team: teamId },
+            { user: userId, society: id, team: teamId },
             { status },
             { new: true }
         );
 
         if (!recruitment) {
             req.flash('error', 'Recruitment entry not found');
-            return res.redirect(`/recruitments/${societyId}/${teamId}/registrations/edit?userId=${userId}`);
         }
 
         req.flash('success', 'Status updated successfully');
-        res.redirect(`/recruitments/${societyId}/${teamId}/registrations`);
-    } catch (e) {
+        res.redirect(`/recruitments/${id}/${teamId}/registrations`);
+    } 
+    
+    catch (e) {
         console.error(e);
         req.flash('error', 'Failed to update status');
-        res.redirect(`/recruitments/${societyId}/${teamId}/registrations/edit?userId=${userId}`);
     }
 });
 

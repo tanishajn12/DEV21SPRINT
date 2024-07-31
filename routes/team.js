@@ -135,6 +135,34 @@ router.patch('/recruitments/:id/:teamid', isLoggedIn, isAdmin, isSocietyAdmin, a
     }
 });
 
+// Assuming you have a middleware to check if the user is logged in
+router.post('/recruitments/:id/toggleRecruitment', isLoggedIn, async (req, res) => {
+    const societyId = req.params.id;
+    const currentUser = req.user; 
+
+    try {
+        const society = await Society.findById(societyId);
+
+        if (!society) {
+            return res.status(404).send('Society not found');
+        }
+
+        // Check if the current user is the admin of the society
+        if (society.societyAdmin.toString() !== currentUser._id.toString()) {
+            return res.status(403).send('Permission denied');
+        }
+
+        // Update recruitment status
+        society.recruitmentOpen = req.body.recruitmentOpen === 'on';
+        await society.save();
+
+        res.send('Recruitment status updated');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error updating recruitment status');
+    }
+});
+
 
 // Delete a specific team
 router.delete('/recruitments/:id/:teamid', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {

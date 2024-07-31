@@ -64,14 +64,17 @@
                                     <button class="btn btn-danger" disabled>Application Closed</button>
                                 <% } %>
                             </div>
-                        <% } else if (currentUser && currentUser.role === 'admin') { %>
-                            <div>
+                        <% } else if (currentUser && currentUser.role === 'admin' && currentUser._id.toString() === society.societyAdmin.toString()) { %>
+                            <div class="recruitment-toggle-container">
                                 <a href="/recruitments/<%= society._id %>" class="btn btn-info">View Teams</a>
                                 <a href="/societies/<%= society._id %>/data" class="btn btn-secondary">Show Data</a>
-                                <div class="recruitment-toggle-container">
-                                    <label class="form-check-label" for="recruitment-toggle-<%= society._id %>">Recruitment Open</label>
-                                    <input type="checkbox" class="form-check-input slider" id="recruitment-toggle-<%= society._id %>" <% if (society.recruitmentOpen) { %> checked <% } %> onchange="toggleRecruitment('<%= society._id %>')">
-                                </div>
+                                <label class="form-check-label" for="recruitment-toggle-<%= society._id %>">Recruitment Open</label>
+                                <input type="checkbox" class="form-check-input slider" id="recruitment-toggle-<%= society._id %>" <% if (society.recruitmentOpen) { %> checked <% } %> onchange="toggleRecruitment('<%= society._id %>')">
+                            </div>
+                        <% } else { %>
+                            <div class="recruitment-toggle-container">
+                                <label class="form-check-label" for="recruitment-toggle-<%= society._id %>">Recruitment Open</label>
+                                <input type="checkbox" class="form-check-input slider" id="recruitment-toggle-<%= society._id %>" <% if (society.recruitmentOpen) { %> checked <% } %> disabled>
                             </div>
                         <% } %>
                     </div>

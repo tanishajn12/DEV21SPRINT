@@ -1,9 +1,10 @@
 const Event = require("./models/Event");
 const Society = require("./models/Society");
+const User = require("./models/User");
+
 const { eventSchema } = require("./schema");
 const { reviewSchema } = require("./schema");
 const {societySchema} = require("./schema");
-
 
 const validateEvent = (req,res,next)=> {
     let {name, img, date, time, society, venue, type, desc, registerLink} = req.body;
@@ -99,14 +100,50 @@ const isEventAuthor = async(req,res,next)=>{
     next();
 }
 
+// const isSocietyAdmin = async (req, res, next) => {
+//     const { id } = req.params;
+//     const society = await Society.findById(id);
+
+//     if (!society.societyAdmin || !society.societyAdmin.equals(req.user._id)) {
+//         req.flash('error', 'Permissions Denied');
+//         return res.redirect(`/societies/${id}`);
+//     }
+//     next();
+// };
+
 const isSocietyAdmin = async (req, res, next) => {
     const { id } = req.params;
-    const society = await Society.findById(id);
-    if (!society.societyAdmin.equals(req.user._id)) {
-        req.flash('error', 'Permissions Denied');
-        return res.redirect(`/societies/${id}`);
+    
+    try {
+        // Fetch the society by ID
+        const society = await Society.findById(id);
+        
+        // Log the society object
+        console.log('Fetched Society:', society);
+
+        // Check if society exists
+        if (!society) {
+            req.flash('error', 'Society not found');
+            return res.redirect('/'); // Redirect to a suitable page or error page
+        }
+
+        // Debugging: Check if societyAdmin is null or undefined
+        // console.log('Society Admin:', society.societyAdmin);
+
+
+        // Check if the current user is the society admin
+        if (!society.societyAdmin || !society.societyAdmin.equals(req.user._id)) {
+            req.flash('error', 'Permissions Denied');
+            return res.redirect(`/societies/${id}`); // Redirect to the society page or another suitable page
+        }
+
+        // Proceed to the next middleware or route handler
+        next();
+    } catch (error) {
+        console.error('Error in isSocietyAdmin middleware:', error);
+        req.flash('error', 'An error occurred while checking permissions');
+        res.redirect('/'); // Redirect to a suitable page or error page
     }
-    next();
 };
 
 

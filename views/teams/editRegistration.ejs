@@ -1,0 +1,81 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<style>
+    body {
+        padding-top: 60px;
+    }
+
+    .edit-recruitment-container {
+        margin-top: 50px;
+        max-width: 600px;
+        margin: auto;
+    }
+
+    .edit-recruitment-form {
+        background-color: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .edit-recruitment-form h2 {
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input, .form-group select {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+    }
+
+    .form-group button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-group button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<div class="container edit-recruitment-container">
+    <div class="edit-recruitment-form">
+        <h2>Edit Recruitment Status</h2>
+
+        <form action="/recruitments/<%= society._id %>/<%= team._id %>/registrations" method="POST">
+            <input type="hidden" name="_method" value="PATCH">
+            <input type="hidden" name="userId" value="<%= userId %>">
+            
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select name="status" id="status">
+                    <option value="Applied" <% if (currentStatus === 'Applied') { %>selected<% } %>>Applied</option>
+                    <option value="Selected" <% if (currentStatus === 'Selected') { %>selected<% } %>>Selected</option>
+                    <option value="Rejected" <% if (currentStatus === 'Rejected') { %>selected<% } %>>Rejected</option>
+                    <option value="Under Review" <% if (currentStatus === 'Under Review') { %>selected<% } %>>Under Review</option>
+                    <option value="Shortlisted" <% if (currentStatus === 'Shortlisted') { %>selected<% } %>>Shortlisted</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Update Status</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

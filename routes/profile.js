@@ -1,5 +1,8 @@
 const express = require("express");
 const User = require("../models/User");
+const Society = require("../models/Society");
+const Team = require("../models/Team");
+const Recruitment = require("../models/Recruitment");
 const router = express.Router();
 const {isLoggedIn} = require('../middleware')
 
@@ -7,7 +10,22 @@ const {isLoggedIn} = require('../middleware')
 router.get("/profile", isLoggedIn,async (req, res) => {
     try {
         const user = await User.findById(req.user.id).populate('wishlist').populate('registeredEvents');
-        res.render("profile/show",{user});
+        const recruitments = await Recruitment.find({ user: req.user.id })
+            .populate({
+                path: 'team',
+                populate: {
+                    path: 'society'
+                }
+            });
+
+        // Map the recruitment data to include the society name, team name, and status
+        const recruitmentStatuses = recruitments.map(recruitment => ({
+            societyName: recruitment.team.society.name,
+            teamName: recruitment.team.name,
+            // dateApplied: recruitment.createdAt.toDateString(),
+            status: recruitment.status
+        }));
+        res.render("profile/show",{user, recruitmentStatuses});
     } catch (e) {
         res.render('error', { err: e.message });
     }

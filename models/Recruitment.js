@@ -19,7 +19,7 @@ let recruitmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Applied', 'Accepted', 'Rejected'],
+        enum: ['Applied', 'Selected', 'Rejected', 'Under Review', 'Shortlisted'],
         default: 'Applied'
     },
     appliedAt: {

@@ -1,0 +1,156 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+
+<style>
+    body {
+        padding-top: 60px;
+        background-color: #f8f9fa;
+    }
+    .container {
+        max-width: 1200px;
+    }
+    .info-box-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .info-box {
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        text-align: center;
+        flex: 1;
+        margin: 0 10px;
+    }
+    .icon-register i, .icon-heart i {
+        font-size: 2rem;
+        color: #007bff; /* Adjust the color as needed */
+    }
+    .info-text {
+        margin-top: 10px;
+    }
+    .info-text div {
+        font-size: 1.25rem;
+        font-weight: 500;
+    }
+    .team-card {
+        margin-bottom: 20px;
+    }
+    .card {
+        border: 1px solid #dee2e6;
+        border-radius: 0.25rem;
+    }
+    .card-body {
+        padding: 1.25rem;
+    }
+    .card-title {
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+    .table {
+        margin-top: 20px;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    .table th, .table td {
+        border: 1px solid #dee2e6;
+        padding: 8px;
+        text-align: center;
+    }
+    .table th {
+        background-color: #f8f9fa;
+    }
+</style>
+
+<div class="container mt-5">
+    <h2 class="text-center"><%= society.name %> - Recruitment Data</h2>
+    
+    <% if (currentUser && currentUser.role === "admin") { %>
+        <div class="info-box-container">
+            <div class="info-box">
+                <div class="icon-register">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="info-text">
+                    <div>Total Registrations Count: <%= totalRegistrationsCount %></div>
+                </div>
+            </div>
+            <% if (society.teams && society.teams.length > 0) { %>
+                <% society.teams.forEach(team => { %>
+                    <div class="info-box">
+                        <div class="info-text">
+                            <div><%= team.name %>: <%= team.registrationsCount %></div>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+    <% } %>
+
+    <% if (society.teams && society.teams.length > 0) { %>
+        <% society.teams.forEach(team => { %>
+            <div class="team-card">
+                <div class="card text-center shadow h-100">
+                    <div class="card-body">
+                        <h4 class="card-title"><%= team.name %></h4>
+
+                        <% if (team.recruitments && team.recruitments.length > 0) { %>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Contact No</th>
+                                        <th>Email</th>
+                                        <th>Branch</th>
+                                        <th>Year</th>
+                                        
+                                        <th>Date Applied</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% team.recruitments.forEach(recruitment => { %>
+                                        <tr>
+                                            <td><%= recruitment.user.name %></td>
+                                            <td><%= recruitment.user.contactno %></td>
+                                            <td><%= recruitment.user.email %></td>
+                                            <td><%= recruitment.user.branch %></td>
+                                            <td><%= recruitment.user.year %></td>
+                                            
+                                            <td><%= new Date(recruitment.appliedAt).toLocaleDateString() %></td>
+
+                                            <td>
+
+                                                <form action="/recruitments/<%= society._id %>/data" method="POST">
+                                                    <input type="hidden" name="_method" value="PATCH">
+                                                    <input type="hidden" name="userId" value="<%= recruitment.user._id %>">
+                                                    <select name="status" class="form-control">
+                                                        <option value="Applied" <%= recruitment.status === 'Applied' ? 'selected' : '' %>>Applied</option>
+                                                        <option value="Accepted" <%= recruitment.status === 'Accepted' ? 'selected' : '' %>>Accepted</option>
+                                                        <option value="Rejected" <%= recruitment.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                                                    </select>
+                                                    <button type="submit" class="btn btn-primary mt-2">Update Status</button>
+                                                </form>
+                                                
+
+                                            </td>
+                                        </tr>
+                                    <% }) %>
+                                </tbody>
+                            </table>
+                        <% } else { %>
+                            <p>No registrations found for this team.</p>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <p class="text-center">No teams available for this society.</p>
+    <% } %>
+</div>
+
+<%- include('../partials/footer') %>

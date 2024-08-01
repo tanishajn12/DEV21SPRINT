@@ -85,37 +85,42 @@
 </div>
 
 <script>
-    function toggleRecruitment(societyId) {
-        const checkbox = document.getElementById(`recruitment-toggle-${societyId}`);
-        const applyButton = document.querySelector(`#apply-btn-${societyId}`);
 
+    function toggleRecruitment(id) {
+        const checkbox = document.getElementById(`recruitment-toggle-${id}`);
+        const applyButton = document.querySelector(`#apply-btn-${id}`);
+        
         if (applyButton) {
             applyButton.disabled = !checkbox.checked;
         }
-
-        const formData = new FormData();
-        formData.append('recruitmentOpen', checkbox.checked ? 'on' : 'off');
-
-        fetch(`/societies/${societyId}/toggleRecruitment`, {
+        
+        const data = { recruitmentOpen: checkbox.checked };
+    
+        fetch(`/recruitments/${id}/toggleRecruitment`, {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
         })
         .then(response => response.text())
         .then(data => {
-            // Check if the response contains error text
             if (data.includes('Error updating recruitment status')) {
-                checkbox.checked = !checkbox.checked; // revert the toggle if there was an error
+                checkbox.checked = !checkbox.checked;
                 if (applyButton) applyButton.disabled = !checkbox.checked;
                 alert('Error updating recruitment status.');
             }
         })
         .catch(error => {
             console.error('Error:', error);
-            checkbox.checked = !checkbox.checked; // revert the toggle if there was an error
+            checkbox.checked = !checkbox.checked;
             if (applyButton) applyButton.disabled = !checkbox.checked;
             alert('Error updating recruitment status.');
         });
     }
+    
+    
+    
 </script>
 
 

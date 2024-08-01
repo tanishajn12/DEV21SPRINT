@@ -135,34 +135,68 @@ router.patch('/recruitments/:id/:teamid', isLoggedIn, isAdmin, isSocietyAdmin, a
     }
 });
 
-// Assuming you have a middleware to check if the user is logged in
-router.post('/recruitments/:id/toggleRecruitment', isLoggedIn, async (req, res) => {
+// // Assuming you have a middleware to check if the user is logged in
+// router.post('/recruitments/:id/toggleRecruitment', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
+//     const id = req.params.id;
+//     const currentUser = req.user; // The currently logged-in user
+
+//     try {
+//         const society = await Society.findById(id);
+
+//         if (!society) {
+//             return res.status(404).send('Society not found');
+//         }
+
+//         // Check if the current user is the admin of the society
+//         if (!society.societyAdmin.equals(currentUser._id)) {
+//             return res.status(403).send('Permission denied');
+//         }
+
+//         // Update recruitment status
+//         society.recruitmentOpen = req.body.recruitmentOpen === 'on';
+//         await society.save();
+
+//         res.send('Recruitment status updated');
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).send('Error updating recruitment status');
+//     }
+// });
+
+router.post('/recruitments/:id/toggleRecruitment', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
     const id = req.params.id;
-    const currentUser = req.user; 
+    const currentUser = req.user;
 
     try {
-        const society = await Society.findById(id);
+        console.log('Received request body:', req.body); // Log the incoming request body
 
+        const society = await Society.findById(id);
         if (!society) {
             return res.status(404).send('Society not found');
         }
 
-        // Check if the current user is the admin of the society
-        if (society.societyAdmin.toString() !== currentUser._id.toString()) {
+        if (!society.societyAdmin.equals(currentUser._id)) {
             return res.status(403).send('Permission denied');
         }
 
-        // Update recruitment status
-        society.recruitmentOpen = req.body.recruitmentOpen === 'on';
-        await society.save();
+        const newRecruitmentStatus = req.body.recruitmentOpen === 'on' || req.body.recruitmentOpen === true;
+        console.log(`Updating recruitment status to: ${newRecruitmentStatus}`);
 
-        res.send('Recruitment status updated');
+        society.recruitmentOpen = newRecruitmentStatus;
+        const savedSociety = await society.save();
+
+        if (savedSociety.recruitmentOpen === newRecruitmentStatus) {
+            console.log('Recruitment status successfully updated.');
+            res.send('Recruitment status updated');
+        } else {
+            console.log('Recruitment status update failed.');
+            res.status(500).send('Error updating recruitment status');
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send('Error updating recruitment status');
     }
 });
-
 
 // Delete a specific team
 router.delete('/recruitments/:id/:teamid', isLoggedIn, isAdmin, isSocietyAdmin, async (req, res) => {
